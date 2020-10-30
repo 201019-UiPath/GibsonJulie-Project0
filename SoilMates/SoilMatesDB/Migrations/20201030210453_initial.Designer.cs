@@ -10,7 +10,7 @@ using SoilMatesDB;
 namespace SoilMatesDB.Migrations
 {
     [DbContext(typeof(SoilMatesContext))]
-    [Migration("20201030012958_initial")]
+    [Migration("20201030210453_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,12 @@ namespace SoilMatesDB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
