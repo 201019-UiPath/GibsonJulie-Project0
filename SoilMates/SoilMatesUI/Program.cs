@@ -1,6 +1,7 @@
 ﻿using System;
+using SoilMatesDB;
 using SoilMatesUI.Menu;
-using SoilMatesLib;
+
 
 namespace SoilMatesUI
 {
@@ -8,12 +9,9 @@ namespace SoilMatesUI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
-            IMenu menu = new MainMenu();
-            menu.Greeting();
-            menu.SelectSignInMenu();
-
+            IMenu menu = new MainMenu(new SoilMatesContext());
+            menu.Start();
+            //menu.SelectSignInMenu();
         }
     }
 }

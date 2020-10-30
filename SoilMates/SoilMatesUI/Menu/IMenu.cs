@@ -8,30 +8,17 @@ namespace SoilMatesUI.Menu
         /// <summary>
         /// Provides Welcome greeting and presents user with sign in option
         /// </summary>
-        void Greeting();
+        void Start();
 
+        // void PrintCustomerMenuOptions();
 
-        /// <summary>
-        /// Store Menu items for customer
-        /// </summary>
-        void PrintCustomerMenuOptions();
+        //void SignUpMenu();
 
-        void SignUpMenu();
+        //void LoginMenu();
 
-        /// <summary>
-        ///  Menu for logging in current users
-        /// </summary>
-        void LoginMenu();
+        //void PrintEmployeeMenu();
 
-        /// <summary>
-        /// Menu for Employee portal
-        /// </summary>
-        void PrintEmployeeMenu();
-
-        /// <summary>
-        /// Selects correct menu for type of user
-        /// </summary>
-        void SelectSignInMenu();
+        //void SelectSignInMenu();
 
     }
 }
