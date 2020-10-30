@@ -12,14 +12,14 @@ namespace SoilMatesUI.Menu
         private string userInput;
         private SignupMenu _signupMenu;
         private LoginMenu _loginMenu;
-        private CustomerMenu customerMenu;
-        private string SignInOption { get; set; }
         private IMenuBL menuBL = new MenuBL();
 
+        private IRepository repository;
         public MainMenu(SoilMatesContext context)
         {
-            this._loginMenu = new LoginMenu(new DBrepo(context), new DBrepo(context));
-            this._signupMenu = new SignupMenu(new DBrepo(context), new DBrepo(context));
+            repository = new DBrepo(context);
+            this._loginMenu = new LoginMenu(repository);
+            this._signupMenu = new SignupMenu(repository);
         }
 
         public void Start()
@@ -27,7 +27,6 @@ namespace SoilMatesUI.Menu
             Console.WriteLine("Welcome to SoilMates!");
 
             bool isValidInput;
-            string userInput;
             do
             {
                 Console.WriteLine("Please select a sign in option:");

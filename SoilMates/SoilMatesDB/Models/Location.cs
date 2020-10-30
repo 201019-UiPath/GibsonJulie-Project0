@@ -8,6 +8,10 @@ namespace SoilMatesDB.Models
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
         public List<Inventory> StoreProducts { get; set; }
         //Location should have records of order history
 

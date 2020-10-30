@@ -11,5 +11,9 @@ namespace SoilMatesDB
         void AddLocation(Location location);
 
         Location GetLocationById(int id);
+
+        Location GetLocationByName(string name);
+
+        Location GetLocationByLocation(string location);
     }
 }

@@ -10,17 +10,15 @@ namespace SoilMatesUI.Menu
         int customerUser = 0;
         int managerUser = 1;
         string userInput;
-        ICustomerRepo customerRepo;
-        IManagerRepo ManagerRepo;
+        IRepository userRepo;
         CustomerService customerService;
         ManagerService managerService;
 
-        public SignupMenu(ICustomerRepo customerRepo, IManagerRepo managerRepo)
+        public SignupMenu(IRepository repo)
         {
-            this.customerRepo = customerRepo;
-            this.ManagerRepo = managerRepo;
-            this.customerService = new CustomerService(customerRepo);
-            this.managerService = new ManagerService(managerRepo);
+            this.userRepo = repo;
+            this.customerService = new CustomerService(userRepo);
+            this.managerService = new ManagerService(userRepo);
         }
 
         public void Start()

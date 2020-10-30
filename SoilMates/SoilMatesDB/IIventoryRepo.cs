@@ -1,7 +1,7 @@
 using SoilMatesDB.Models;
 using System.Collections.Generic;
 
-namespace SoilMatesDB.Models
+namespace SoilMatesDB
 {
     public interface IIventoryRepo
     {

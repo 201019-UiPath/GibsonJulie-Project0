@@ -6,7 +6,7 @@ using System;
 
 namespace SoilMatesDB
 {
-    public class DBrepo : ICustomerRepo, ILocationRepo, IOrdersRepo, IProductRepo, IIventoryRepo, IManagerRepo
+    public class DBrepo : ICustomerRepo, ILocationRepo, IOrdersRepo, IProductRepo, IIventoryRepo, IManagerRepo, IRepository
     {
         private SoilMatesContext context;
 
@@ -87,10 +87,19 @@ namespace SoilMatesDB
             return (Customer)context.Customers.Where(x => x.Name == name);
         }
 
+        public Location GetLocationByName(string name)
+        {
+            return (Location)context.Locations.Where(x => x.Name == name);
+        }
+
+        public Location GetLocationByLocation(string address)
+        {
+            return (Location)context.Locations.Where(x => x.Address == address);
+        }
+
+
         public Customer GetCustomerByLogin(string password, string email)
         {
-
-            //var customer = (Customer)context.Customers.FirstOrDefault(x => x.Password == password && x.Email == email);
             return (Customer)context.Customers.FirstOrDefault(x => x.Password == password && x.Email == email);
         }
 
@@ -118,5 +127,6 @@ namespace SoilMatesDB
         {
             return (Manager)context.Managers.FirstOrDefault(x => x.Password == password && x.Email == email);
         }
+
     }
 }

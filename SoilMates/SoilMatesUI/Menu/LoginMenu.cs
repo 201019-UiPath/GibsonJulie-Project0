@@ -8,21 +8,19 @@ namespace SoilMatesUI.Menu
     public class LoginMenu : IMenu
     {
         string userInput;
-        ICustomerRepo customerRepo;
-        IManagerRepo ManagerRepo;
+        IRepository userRepo;
         CustomerService customerService;
         ManagerService managerService;
         CustomerMenu customerMenu;
-
+        ManagerMenu managerMenu;
         //TODO: ManagerMenu managerMenu;
-
-        public LoginMenu(ICustomerRepo customerRepo, IManagerRepo managerRepo)
+        public LoginMenu(IRepository userRepo)
         {
-            this.customerRepo = customerRepo;
-            this.ManagerRepo = managerRepo;
-            this.customerService = new CustomerService(customerRepo);
-            this.managerService = new ManagerService(managerRepo);
+            this.userRepo = userRepo;
+            this.customerService = new CustomerService(userRepo);
+            this.managerService = new ManagerService(userRepo);
             this.customerMenu = new CustomerMenu();
+            this.managerMenu = new ManagerMenu(userRepo);
         }
 
         public void Start()
@@ -38,16 +36,21 @@ namespace SoilMatesUI.Menu
                 case "0":
                     Customer customer = GetCustomerDetails();
                     if (customer == null) Console.WriteLine("User Not Found");
-                    else Console.WriteLine("Login successfull");
-                    this.customerMenu(customerRepo);
+                    else
+                    {
+                        Console.WriteLine("Customer Login successfull");
+                        customerMenu.Start(customer);
+                    }
                     break;
                 case "1":
                     Manager manager = GetManagerDetails();
-                    if (manager == null)
+                    if (manager == null) Console.WriteLine("Login unsuccessfull");
+                    else
                     {
-                        Console.WriteLine("Login unsuccessfull");
+                        Console.WriteLine("Manager Login successfull");
+                        managerMenu.Start(manager);
+                        //add manager menu
                     }
-                    else Console.WriteLine("Login successfull");
                     break;
             }
         }
@@ -58,20 +61,15 @@ namespace SoilMatesUI.Menu
             string email = Console.ReadLine();
             Console.WriteLine("Enter your password: ");
             string pw = Console.ReadLine();
-            Customer customer = customerRepo.GetCustomerByLogin(pw, email);
-            return customer; //TODO use Business layer to input validate user
+            return userRepo.GetCustomerByLogin(pw, email); //TODO use Business layer to input validate user
         }
-
         public Manager GetManagerDetails()
         {
             Console.WriteLine("Enter your Email: ");
             string email = Console.ReadLine();
             Console.WriteLine("Enter your password: ");
             string pw = Console.ReadLine();
-            Manager manager = ManagerRepo.GetManagerByLogin(pw, email);
-            return manager; //TODO use Business layer to input validate user
+            return userRepo.GetManagerByLogin(pw, email); //TODO use Business layer to input validate user
         }
-
-
     }
 }
