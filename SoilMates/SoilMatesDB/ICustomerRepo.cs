@@ -15,6 +15,7 @@ namespace SoilMatesDB
 
         Customer GetCustomerById(int id);
 
+        Customer GetCustomerByLogin(string password, string email);
 
     }
 }

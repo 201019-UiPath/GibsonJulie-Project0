@@ -1,8 +1,6 @@
-using System.Threading;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using SoilMatesDB.Models;
 using System;
 
@@ -21,6 +19,7 @@ namespace SoilMatesDB
         {
             context.Customers.Add(customer);
             context.SaveChanges();
+            Console.WriteLine("Sign Up successfull!\n");
         }
 
         public void AddLocation(Location location)
@@ -32,6 +31,8 @@ namespace SoilMatesDB
         public void AddManager(Manager manager)
         {
             context.Managers.Add(manager);
+            context.SaveChanges();
+            Console.WriteLine("Sign up successfull!");
         }
 
         public void AddOrder(Orders order)
@@ -86,6 +87,13 @@ namespace SoilMatesDB
             return (Customer)context.Customers.Where(x => x.Name == name);
         }
 
+        public Customer GetCustomerByLogin(string password, string email)
+        {
+
+            //var customer = (Customer)context.Customers.FirstOrDefault(x => x.Password == password && x.Email == email);
+            return (Customer)context.Customers.FirstOrDefault(x => x.Password == password && x.Email == email);
+        }
+
         public Location GetLocationById(int id)
         {
             return (Location)context.Locations.Where(x => x.Id == id);
@@ -106,5 +114,9 @@ namespace SoilMatesDB
             return (Product)context.Products.Where(x => x.Description == description);
         }
 
+        public Manager GetManagerByLogin(string password, string email)
+        {
+            return (Manager)context.Managers.FirstOrDefault(x => x.Password == password && x.Email == email);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace SoilMatesDB
     {
         void AddManager(Manager manager);
         List<Manager> GetAllManagers();
-
         Manager GetManagerById(int id);
+        Manager GetManagerByLogin(string password, string email);
     }
 }

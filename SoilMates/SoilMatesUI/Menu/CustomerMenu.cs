@@ -1,12 +1,22 @@
 using System;
+using SoilMatesBL;
+using SoilMatesDB;
+
 namespace SoilMatesUI.Menu
 {
     public class CustomerMenu : IMenu
     {
+        private string userInput;
+        private SignupMenu _signupMenu;
+        private LoginMenu _loginMenu;
+        private CustomerMenu customerMenu;
+        private string SignInOption { get; set; }
+        private IMenuBL menuBL = new MenuBL();
+
         public void Start()
         {
-            Console.WriteLine("In customer Menu");
-            //throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
+
     }
 }

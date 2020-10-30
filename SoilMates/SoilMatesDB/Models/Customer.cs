@@ -10,5 +10,10 @@ namespace SoilMatesDB.Models
     {
         public List<Orders> OrderHistory { get; set; }
 
+
+        public override string ToString()
+        {
+            return base.Name.ToString();
+        }
     }
 }
