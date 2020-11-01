@@ -38,8 +38,9 @@ namespace SoilMatesBL
 
         public bool EmailValidation(string input)
         {
-            //TODO 
-            return true;
+            string namePattern = "^\\S+@\\S+.\\S+$";
+            string message = "Invalid email!\n";
+            return MenuOptionsValidation(namePattern, input, message);
         }
 
         public bool MenuOptionsValidation(string pattern, string input, string message)

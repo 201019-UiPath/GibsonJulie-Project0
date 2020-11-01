@@ -61,7 +61,7 @@ namespace SoilMatesDB
 
         public List<Inventory> GetAllInventory()
         {
-            return context.Inventories.Select(s => s).ToList();
+            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
         }
 
 
@@ -116,14 +116,16 @@ namespace SoilMatesDB
         }
 
 
-        public Inventory GetInventoryItemByProductId(int id)
+        public List<Inventory> GetInventoryItemByProductId(int id)
         {
-            return (Inventory)context.Inventories.FirstOrDefault(X => X.ProductForeingId == id);
+            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
         }
 
-        public Inventory GetInventoryItemByLocationId(int id)
+        public List<Inventory> GetInventoryItemByLocationId(int id)
         {
-            return (Inventory)context.Inventories.FirstOrDefault(X => X.LocationForeignId == id);
+            //return context.Inventories.Select(s => s).ToList();
+            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
+
         }
 
 
@@ -139,17 +141,17 @@ namespace SoilMatesDB
 
         public Manager GetManagerById(int id)
         {
-            return (Manager)context.Managers.Where(x => x.Id == id);
+            return (Manager)context.Managers.FirstOrDefault(x => x.Id == id);
         }
 
         public Order GetOrderById(int id)
         {
-            return (Order)context.Orders.Where(x => x.OrderId == id);
+            return (Order)context.Orders.FirstOrDefault(x => x.OrderId == id);
         }
 
         public Product GetProductByName(string name)
         {
-            return (Product)context.Products.Where(x => x.Name == name);
+            return (Product)context.Products.FirstOrDefault(x => x.Name == name);
         }
 
         public Manager GetManagerByLogin(string password, string email)

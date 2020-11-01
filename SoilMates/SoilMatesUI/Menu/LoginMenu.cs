@@ -13,7 +13,6 @@ namespace SoilMatesUI.Menu
         ManagerService managerService;
         CustomerMenu customerMenu;
         ManagerMenu managerMenu;
-        //TODO: ManagerMenu managerMenu;
         public LoginMenu(IRepository userRepo)
         {
             this.userRepo = userRepo;
@@ -38,7 +37,7 @@ namespace SoilMatesUI.Menu
                     if (customer == null) Console.WriteLine("User Not Found");
                     else
                     {
-                        Console.WriteLine("Customer Login successfull");
+                        Console.WriteLine("Customer Login successfull\n");
                         customerMenu.Start(customer);
                     }
                     break;
@@ -47,9 +46,8 @@ namespace SoilMatesUI.Menu
                     if (manager == null) Console.WriteLine("Login unsuccessfull");
                     else
                     {
-                        Console.WriteLine("Manager Login successfull");
+                        Console.WriteLine("Manager Login successfull\n");
                         managerMenu.Start(manager);
-                        //add manager menu
                     }
                     break;
             }

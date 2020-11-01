@@ -9,14 +9,10 @@ namespace SoilMatesDB
 
         void AddInventory(Inventory item);
 
-        Inventory GetInventoryItemByProductId(int id);
-        Inventory GetInventoryItemByLocationId(int id);
+        List<Inventory> GetInventoryItemByProductId(int id);
+        List<Inventory> GetInventoryItemByLocationId(int id);
 
         List<Inventory> GetAllInInventory();
-
-        List<Inventory> GetProductsByLocationId(Location location);
-
-        List<Inventory> GetLocationsByProductId(Product product);
         void RemoveInvetoryItem(Inventory item);
     }
 }

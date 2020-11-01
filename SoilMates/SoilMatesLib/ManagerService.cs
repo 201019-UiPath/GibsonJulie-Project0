@@ -4,7 +4,15 @@ using SoilMatesDB.Models;
 
 namespace SoilMatesLib
 {
-    public class ManagerService
+    public interface IManagerService
+    {
+        void AddManager(Manager newManager);
+        List<Manager> GetAllManager();
+
+        void RemoveManager(Manager manager);
+    }
+
+    public class ManagerService : IManagerService
     {
         private IManagerRepo repo;
 
@@ -23,5 +31,9 @@ namespace SoilMatesLib
             return repo.GetAllManagers();
         }
 
+        public void RemoveManager(Manager manager)
+        {
+            repo.RemoveManager(manager);
+        }
     }
 }
