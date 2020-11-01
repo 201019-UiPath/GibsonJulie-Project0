@@ -9,9 +9,9 @@ namespace SoilMatesDB
 
         List<Customer> GetAllCustomers();
 
-        Customer GetCustomerByName(string name);
+        Customer GetCustomer(string name);
 
-        Customer GetCustomerById(int id);
+        Customer GetCustomer(int id);
 
         Customer GetCustomerByLogin(string password, string email);
 

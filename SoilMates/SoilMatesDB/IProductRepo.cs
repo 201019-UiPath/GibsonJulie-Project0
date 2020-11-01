@@ -8,7 +8,9 @@ namespace SoilMatesDB
         void AddProduct(Product product);
         List<Product> GetAllProducts();
 
-        Product GetProductByName(string name);
+        Product GetProduct(string name);
+
+        Product GetProduct(int id);
 
         void DeleteProduct(Product product);
         void RemoveProduct(Product product);

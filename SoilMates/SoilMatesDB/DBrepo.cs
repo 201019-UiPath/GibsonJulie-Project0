@@ -85,19 +85,29 @@ namespace SoilMatesDB
             return context.Products.ToList();
         }
 
-        public Customer GetCustomerById(int id)
+        public Product GetProduct(string name)
         {
-            return (Customer)context.Customers.Where(x => x.Id == id);
+            return (Product)context.Products.FirstOrDefault(x => x.Name == name);
         }
 
-        public Customer GetCustomerByName(string name)
+        public Product GetProduct(int id)
         {
-            return (Customer)context.Customers.Where(x => x.Name == name);
+            return (Product)context.Products.FirstOrDefault(x => x.ProductId == id);
+        }
+
+        public Customer GetCustomer(int id)
+        {
+            return (Customer)context.Customers.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Customer GetCustomer(string name)
+        {
+            return (Customer)context.Customers.FirstOrDefault(x => x.Name == name);
         }
 
         public Location GetLocationByName(string name)
         {
-            return (Location)context.Locations.Where(x => x.Name == name);
+            return (Location)context.Locations.FirstOrDefault(x => x.Name == name);
         }
 
         public Location GetLocationByLocation(string address)
