@@ -3,6 +3,6 @@ namespace SoilMatesDB.Models
 {
     public class Manager : User
     {
-        public List<Product> ProductList { get; set; }
+        public int ManagerId { get; set; }
     }
 }

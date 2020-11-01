@@ -6,7 +6,7 @@ namespace SoilMatesDB.Models
     /// </summary>
     public class Location
     {
-        public int Id { get; set; }
+        public int LocationId { get; set; }
 
         public string Name { get; set; }
 

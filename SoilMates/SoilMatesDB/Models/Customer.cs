@@ -1,3 +1,4 @@
+using System.Dynamic;
 using System.Collections.Generic;
 using System;
 
@@ -8,12 +9,7 @@ namespace SoilMatesDB.Models
     /// </summary>
     public class Customer : User
     {
-        public List<Orders> OrderHistory { get; set; }
+        public int CustomerId { get; set; }
 
-
-        public override string ToString()
-        {
-            return base.Name.ToString();
-        }
     }
 }

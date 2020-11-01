@@ -6,12 +6,13 @@ namespace SoilMatesDB.Models
     /// <summary>
     /// Order model
     /// </summary>
-    public class Orders
+    public class Order
     {
-        public int Id { get; set; }
+        public int OrderId { get; set; }
         public int CustomerId { get; set; }
+        public string Address { get; set; }
         public DateTime OrderTime { get; set; }
-        public List<Product> Purchases { get; set; }
+        public List<OrderProduct> LineItem { get; set; }
 
     }
 }

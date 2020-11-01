@@ -10,7 +10,7 @@ using SoilMatesDB;
 namespace SoilMatesDB.Migrations
 {
     [DbContext(typeof(SoilMatesContext))]
-    [Migration("20201030210453_initial")]
+    [Migration("20201101042803_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace SoilMatesDB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -47,32 +50,32 @@ namespace SoilMatesDB.Migrations
 
             modelBuilder.Entity("SoilMatesDB.Models.Inventory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InventoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("LocationId")
+                    b.Property<int>("LocationForeignId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductForeingId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("InventoryId");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("LocationForeignId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductForeingId");
 
                     b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("SoilMatesDB.Models.Location", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LocationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -83,7 +86,7 @@ namespace SoilMatesDB.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("LocationId");
 
                     b.ToTable("Locations");
                 });
@@ -97,6 +100,9 @@ namespace SoilMatesDB.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
+
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -112,12 +118,15 @@ namespace SoilMatesDB.Migrations
                     b.ToTable("Managers");
                 });
 
-            modelBuilder.Entity("SoilMatesDB.Models.Orders", b =>
+            modelBuilder.Entity("SoilMatesDB.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
@@ -125,16 +134,36 @@ namespace SoilMatesDB.Migrations
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
+                    b.HasKey("OrderId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SoilMatesDB.Models.Product", b =>
+            modelBuilder.Entity("SoilMatesDB.Models.OrderProduct", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("OrderForiegnId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductForiegnId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderForiegnId");
+
+                    b.HasIndex("ProductForiegnId");
+
+                    b.ToTable("OrderProducts");
+                });
+
+            modelBuilder.Entity("SoilMatesDB.Models.Product", b =>
+                {
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -142,17 +171,10 @@ namespace SoilMatesDB.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
-                    b.Property<int?>("OrdersId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
-
-                    b.HasIndex("OrdersId");
+                    b.HasKey("ProductId");
 
                     b.ToTable("Products");
                 });
@@ -161,35 +183,30 @@ namespace SoilMatesDB.Migrations
                 {
                     b.HasOne("SoilMatesDB.Models.Location", "Location")
                         .WithMany("StoreProducts")
-                        .HasForeignKey("LocationId")
+                        .HasForeignKey("LocationForeignId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SoilMatesDB.Models.Product", "Product")
                         .WithMany("ProductLocations")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductForeingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SoilMatesDB.Models.Orders", b =>
+            modelBuilder.Entity("SoilMatesDB.Models.OrderProduct", b =>
                 {
-                    b.HasOne("SoilMatesDB.Models.Customer", null)
-                        .WithMany("OrderHistory")
-                        .HasForeignKey("CustomerId")
+                    b.HasOne("SoilMatesDB.Models.Order", "Order")
+                        .WithMany("LineItem")
+                        .HasForeignKey("OrderForiegnId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("SoilMatesDB.Models.Product", b =>
-                {
-                    b.HasOne("SoilMatesDB.Models.Manager", null)
-                        .WithMany("ProductList")
-                        .HasForeignKey("ManagerId");
-
-                    b.HasOne("SoilMatesDB.Models.Orders", null)
-                        .WithMany("Purchases")
-                        .HasForeignKey("OrdersId");
+                    b.HasOne("SoilMatesDB.Models.Product", "Product")
+                        .WithMany("LineItem")
+                        .HasForeignKey("ProductForiegnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

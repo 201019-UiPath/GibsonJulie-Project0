@@ -14,9 +14,10 @@ namespace SoilMatesDB
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,12 +38,23 @@ namespace SoilMatesDB
             modelBuilder.Entity<Inventory>()
             .HasOne(e => e.Product)
             .WithMany(v => v.ProductLocations)
-            .HasForeignKey(e => e.ProductId);
+            .HasForeignKey(e => e.ProductForeingId);
 
             modelBuilder.Entity<Inventory>()
             .HasOne(e => e.Location)
             .WithMany(v => v.StoreProducts)
-            .HasForeignKey(e => e.LocationId);
+            .HasForeignKey(e => e.LocationForeignId);
+
+            modelBuilder.Entity<OrderProduct>()
+            .HasOne(e => e.Product)
+            .WithMany(v => v.LineItem)
+            .HasForeignKey(e => e.ProductForiegnId);
+
+            modelBuilder.Entity<OrderProduct>()
+            .HasOne(e => e.Order)
+            .WithMany(v => v.LineItem)
+            .HasForeignKey(e => e.OrderForiegnId);
+
         }
     }
 

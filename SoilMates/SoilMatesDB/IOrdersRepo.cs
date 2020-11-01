@@ -6,10 +6,10 @@ namespace SoilMatesDB
 {
     public interface IOrdersRepo
     {
-        void AddOrder(Orders order);
-        List<Orders> GetAllOrders();
+        void AddOrder(Order order);
+        List<Order> GetAllOrders();
 
-        Orders GetOrderById(int id);
+        Order GetOrderById(int id);
 
     }
 }

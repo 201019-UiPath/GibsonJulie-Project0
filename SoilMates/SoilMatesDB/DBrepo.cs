@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -22,29 +23,35 @@ namespace SoilMatesDB
             Console.WriteLine("Sign Up successfull!\n");
         }
 
+        public void AddInventory(Inventory inventory)
+        {
+            context.Inventories.Add(inventory);
+            //context.SaveChanges();
+        }
+
         public void AddLocation(Location location)
         {
             context.Locations.Add(location);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public void AddManager(Manager manager)
         {
             context.Managers.Add(manager);
-            context.SaveChanges();
-            Console.WriteLine("Sign up successfull!");
+            //context.SaveChanges();
+            //Console.WriteLine("Sign up successfull!");
         }
 
-        public void AddOrder(Orders order)
+        public void AddOrder(Order order)
         {
             context.Orders.Add(order);
-            context.SaveChanges();
+            // context.SaveChanges();
         }
 
         public void AddProduct(Product product)
         {
             context.Products.Add(product);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public List<Customer> GetAllCustomers()
@@ -57,6 +64,7 @@ namespace SoilMatesDB
             return context.Inventories.Select(s => s).ToList();
         }
 
+
         public List<Location> GetAllLocations()
         {
             return context.Locations.Select(s => s).ToList();
@@ -67,7 +75,7 @@ namespace SoilMatesDB
             return context.Managers.Select(s => s).ToList();
         }
 
-        public List<Orders> GetAllOrders()
+        public List<Order> GetAllOrders()
         {
             return context.Orders.Select(s => s).ToList();
         }
@@ -94,7 +102,18 @@ namespace SoilMatesDB
 
         public Location GetLocationByLocation(string address)
         {
-            return (Location)context.Locations.Where(x => x.Address == address);
+            return (Location)context.Locations.FirstOrDefault(x => x.Address == address);
+        }
+
+
+        public Inventory GetInventoryItemByProductId(int id)
+        {
+            return (Inventory)context.Inventories.FirstOrDefault(X => X.ProductForeingId == id);
+        }
+
+        public Inventory GetInventoryItemByLocationId(int id)
+        {
+            return (Inventory)context.Inventories.FirstOrDefault(X => X.LocationForeignId == id);
         }
 
 
@@ -105,7 +124,7 @@ namespace SoilMatesDB
 
         public Location GetLocationById(int id)
         {
-            return (Location)context.Locations.Where(x => x.Id == id);
+            return (Location)context.Locations.FirstOrDefault(x => x.LocationId == id);
         }
 
         public Manager GetManagerById(int id)
@@ -113,14 +132,14 @@ namespace SoilMatesDB
             return (Manager)context.Managers.Where(x => x.Id == id);
         }
 
-        public Orders GetOrderById(int id)
+        public Order GetOrderById(int id)
         {
-            return (Orders)context.Orders.Where(x => x.Id == id);
+            return (Order)context.Orders.Where(x => x.OrderId == id);
         }
 
-        public Product GetProductByName(string description)
+        public Product GetProductByName(string name)
         {
-            return (Product)context.Products.Where(x => x.Description == description);
+            return (Product)context.Products.Where(x => x.Name == name);
         }
 
         public Manager GetManagerByLogin(string password, string email)
@@ -128,5 +147,54 @@ namespace SoilMatesDB
             return (Manager)context.Managers.FirstOrDefault(x => x.Password == password && x.Email == email);
         }
 
+        public List<Inventory> GetAllInInventory()
+        {
+            return context.Inventories.Select(s => s).ToList();
+        }
+
+        public List<Inventory> GetProductsByLocationId(Location location)
+        {
+            return context.Inventories.Select(s => s).Where(x => x.Location.Name == location.Name).ToList();
+        }
+
+        public List<Inventory> GetLocationsByProductId(Product product)
+        {
+            return context.Inventories.Select(s => s).Where(x => x.Product.Description == product.Description).ToList();
+        }
+
+        public void SaveChanges()
+        {
+            context.SaveChanges();
+        }
+
+        public void DeleteProduct(Product product)
+        {
+            context.Products.Remove(product);
+            SaveChanges();
+        }
+
+        public void RemoveLocation(Location location)
+        {
+            context.Locations.Remove(location);
+            SaveChanges();
+        }
+
+        public void RemoveProduct(Product product)
+        {
+            context.Products.Remove(product);
+            SaveChanges();
+        }
+
+        public void RemoveInvetoryItem(Inventory item)
+        {
+            context.Inventories.Remove(item);
+            SaveChanges();
+        }
+
+        public void RemoveManager(Manager manager)
+        {
+            context.Managers.Remove(manager);
+            SaveChanges();
+        }
     }
 }

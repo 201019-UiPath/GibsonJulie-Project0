@@ -2,14 +2,14 @@ namespace SoilMatesDB.Models
 {
     public class Inventory
     {
-        public int Id { get; set; }
+        public int InventoryId { get; set; }
         public int Quantity { get; set; }
 
-        public int ProductId { get; set; }
+        public int ProductForeingId { get; set; }
 
         public Product Product { get; set; }
 
-        public int LocationId { get; set; }
+        public int LocationForeignId { get; set; }
 
         public Location Location { get; set; }
 
