@@ -11,8 +11,6 @@ namespace SoilMatesDB
         Product GetProduct(string name);
 
         Product GetProduct(int id);
-
-        void DeleteProduct(Product product);
         void RemoveProduct(Product product);
     }
 }

@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System.Data.Common;
 using System;
 using SoilMatesBL;
 using SoilMatesDB.Models;
@@ -68,10 +65,10 @@ namespace SoilMatesUI.Menu
                     productService.AddProduct(newProduct);
                     repo.SaveChanges();
 
-                    Console.WriteLine("New Location added! All locations listed below:");
+                    Console.WriteLine("New plant added! All plants listed below:");
                     foreach (var product in productService.GetAllProducts())
                     {
-                        Console.WriteLine($"\tlocation id: {product.ProductId} location name: {product.Name}");
+                        Console.WriteLine($"\tProduct id: {product.ProductId} \tProduct name: {product.Name}");
                     }
                 }
 
@@ -94,6 +91,7 @@ namespace SoilMatesUI.Menu
                     int idProduct = Int32.Parse(Console.ReadLine());
                     Product productLoaction = productService.GetProduct(idProduct);
 
+                    //TODO: make a beter constructor
                     Inventory item = new Inventory();
                     item.Location = locationProduct;
                     item.Product = productLoaction;
@@ -123,7 +121,7 @@ namespace SoilMatesUI.Menu
                     foreach (var plant in inventoryService.GetAllInventory())
                     {
                         if (plant.Product.Name == plantName)
-                            Console.WriteLine($"\tName: {plant.Product.Name} \t\tLocation id: {plant.Location.Name}");
+                            Console.WriteLine($"\tName: {plant.Product.Name} \t\tLocation id: {plant.Location.Name} quantity: {plant.Quantity}");
                     }
 
                 }
@@ -137,7 +135,6 @@ namespace SoilMatesUI.Menu
             Console.WriteLine("[2] Add plant to Store location");
             Console.WriteLine("[3] Print Store Inventory"); //Check products in store location
             Console.WriteLine("[4] Print Plant Inventory");  //Check product inventory by product type
-            // Console.WriteLine("[2] Add Product to Inventory"); //add new product
             // Console.WriteLine("[3] Remove Product from inventory"); //remove product
             Console.WriteLine("[x] Exit"); //remove product
             userInput = Console.ReadLine();

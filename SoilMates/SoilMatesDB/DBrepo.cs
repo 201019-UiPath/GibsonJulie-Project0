@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,22 @@ namespace SoilMatesDB
 
         public void AddInventory(Inventory inventory)
         {
-            context.Inventories.Add(inventory);
+            //if product location combination exists just update quantity
+
+            Console.WriteLine("Duplicate Inventory item, increasing quanity");
+            Inventory item = GetInventoryItem(inventory.ProductForeingId, inventory.LocationForeignId);
+            if (item == null)
+            {
+                //item not in inventory 
+                context.Inventories.Add(inventory);
+            }
+            else
+            {
+                Console.WriteLine("Increased item quantity");
+                //increase quantity in inventory
+                item.Quantity++;
+            }
+            //context.Inventories.Add(inventory);
             //context.SaveChanges();
         }
 
@@ -33,6 +50,33 @@ namespace SoilMatesDB
         {
             context.Locations.Add(location);
             //context.SaveChanges();
+
+            if (!context.Locations.Any())
+            {
+                //product table is empty
+                context.Locations.Add(location);
+            }
+            else
+            {
+                Location isDuplicate = GetLocationByName(location.Name);
+                if (isDuplicate == null)
+                {
+                    context.Locations.Add(location);
+                }
+                else
+                {
+                    //if store name exists, check to see if if has the same address if so location is duplicate and not added 
+                    if (isDuplicate.Address == location.Address)
+                    {
+                        Console.WriteLine("Location is a duplicate");
+                    }
+                    else
+                    {
+                        context.Locations.Add(location);
+                    }
+
+                }
+            }
         }
 
         public void AddManager(Manager manager)
@@ -50,13 +94,31 @@ namespace SoilMatesDB
 
         public void AddProduct(Product product)
         {
-            context.Products.Add(product);
+            //context.Products.Add(product);
             //context.SaveChanges();
+
+            if (!context.Products.Any())
+            {
+                //product table is empty
+                context.Products.Add(product);
+            }
+            else
+            {
+                Product isDuplicate = GetProduct(product.Name);
+                if (isDuplicate == null)
+                {
+                    context.Products.Add(product);
+                }
+                else
+                {
+                    Console.WriteLine("Product is duplicate");
+                }
+            }
         }
 
         public List<Customer> GetAllCustomers()
         {
-            return context.Customers.Select(x => x).Include("OrderHistory").ToList();
+            return context.Customers.Include(customer => customer).ToList();
         }
 
         public List<Inventory> GetAllInventory()
@@ -64,20 +126,25 @@ namespace SoilMatesDB
             return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
         }
 
+        public Inventory GetInventoryItem(int productId, int locationId)
+        {
+            return (Inventory)context.Inventories.FirstOrDefault(x => x.ProductForeingId == productId && x.LocationForeignId == locationId);
+        }
+
 
         public List<Location> GetAllLocations()
         {
-            return context.Locations.Select(s => s).ToList();
+            return context.Locations.Include(s => s.StoreProducts).ToList();
         }
 
         public List<Manager> GetAllManagers()
         {
-            return context.Managers.Select(s => s).ToList();
+            return context.Managers.Include(s => s).ToList();
         }
 
         public List<Order> GetAllOrders()
         {
-            return context.Orders.Select(s => s).ToList();
+            return context.Orders.Include(s => s).ToList();
         }
 
         public List<Product> GetAllProducts()
@@ -123,7 +190,6 @@ namespace SoilMatesDB
 
         public List<Inventory> GetInventoryItemByLocationId(int id)
         {
-            //return context.Inventories.Select(s => s).ToList();
             return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
 
         }
@@ -136,7 +202,7 @@ namespace SoilMatesDB
 
         public Location GetLocationById(int id)
         {
-            return (Location)context.Locations.FirstOrDefault(x => x.LocationId == id);
+            return (Location)context.Locations.Include(x => x.StoreProducts).ThenInclude(x => x.Product).FirstOrDefault();
         }
 
         public Manager GetManagerById(int id)
@@ -179,12 +245,6 @@ namespace SoilMatesDB
             context.SaveChanges();
         }
 
-        public void DeleteProduct(Product product)
-        {
-            context.Products.Remove(product);
-            SaveChanges();
-        }
-
         public void RemoveLocation(Location location)
         {
             context.Locations.Remove(location);
@@ -208,5 +268,6 @@ namespace SoilMatesDB
             context.Managers.Remove(manager);
             SaveChanges();
         }
+
     }
 }

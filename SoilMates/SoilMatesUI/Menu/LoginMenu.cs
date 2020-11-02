@@ -18,7 +18,7 @@ namespace SoilMatesUI.Menu
             this.userRepo = userRepo;
             this.customerService = new CustomerService(userRepo);
             this.managerService = new ManagerService(userRepo);
-            this.customerMenu = new CustomerMenu();
+            this.customerMenu = new CustomerMenu(userRepo);
             this.managerMenu = new ManagerMenu(userRepo);
         }
 
