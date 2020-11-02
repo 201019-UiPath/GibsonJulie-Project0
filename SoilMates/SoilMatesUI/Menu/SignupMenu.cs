@@ -37,12 +37,12 @@ namespace SoilMatesUI.Menu
                     //call create a hero, get hero details
                     Customer newCustomer = GetCustomerDetails();
                     customerService.AddCustomer(newCustomer);
-                    userRepo.SaveChanges();
+                    customerService.SaveChanges();
                     break;
                 case "1":
                     Manager newManager = GetManagerDetails();
                     managerService.AddManager(newManager);
-                    userRepo.SaveChanges();
+                    managerService.SaveChanges();
                     break;
             }
         }

@@ -4,13 +4,7 @@ using SoilMatesDB.Models;
 
 namespace SoilMatesLib
 {
-    public interface ICustomerService
-    {
-        void AddCustomer(Customer newCustomer);
-        List<Customer> GetAllCustomers();
-    }
-
-    public class CustomerService : ICustomerService
+    public class CustomerService
     {
         private ICustomerRepo repo;
 
@@ -27,6 +21,11 @@ namespace SoilMatesLib
         public List<Customer> GetAllCustomers()
         {
             return repo.GetAllCustomers();
+        }
+
+        public void SaveChanges()
+        {
+            repo.SaveChanges();
         }
     }
 }

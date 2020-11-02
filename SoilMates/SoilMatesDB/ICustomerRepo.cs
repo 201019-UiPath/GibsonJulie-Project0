@@ -13,6 +13,8 @@ namespace SoilMatesDB
 
         Customer GetCustomer(int id);
 
+        void SaveChanges();
+
         Customer GetCustomerByLogin(string password, string email);
 
     }

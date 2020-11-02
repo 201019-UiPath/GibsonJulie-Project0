@@ -4,15 +4,7 @@ using SoilMatesDB.Models;
 
 namespace SoilMatesLib
 {
-    public interface IProductService
-    {
-        void AddProduct(Product newProduct);
-        List<Product> GetAllProducts();
-
-        void RemoveProduct(Product product);
-    }
-
-    public class ProductService : IProductService
+    public class ProductService
     {
         private IProductRepo repo;
 
@@ -48,7 +40,10 @@ namespace SoilMatesLib
             repo.RemoveProduct(product);
         }
 
-
+        public void SaveChanges()
+        {
+            repo.SaveChanges();
+        }
 
     }
 }

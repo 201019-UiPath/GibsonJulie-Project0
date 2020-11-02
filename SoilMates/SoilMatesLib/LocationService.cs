@@ -1,19 +1,11 @@
+using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using SoilMatesDB;
 using SoilMatesDB.Models;
 
 namespace SoilMatesLib
 {
-    public interface ILocationService
-    {
-        void AddLocation(Location newLocation);
-        List<Location> GetAllLocations();
-        Location GetLocationById(int id);
-
-        void RemoveLocation(Location location);
-    }
-
-    public class LocationService : ILocationService
+    public class LocationService
     {
         private ILocationRepo repo;
 
@@ -41,6 +33,9 @@ namespace SoilMatesLib
         {
             repo.RemoveLocation(location);
         }
-
+        public void SaveChanges()
+        {
+            repo.SaveChanges();
+        }
     }
 }

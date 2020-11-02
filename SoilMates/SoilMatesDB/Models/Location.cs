@@ -15,6 +15,8 @@ namespace SoilMatesDB.Models
         public List<Inventory> StoreProducts { get; set; }
         //Location should have records of order history
 
+        public List<Order> orderHistory { get; set; }
+
 
     }
 }

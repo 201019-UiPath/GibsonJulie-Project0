@@ -12,5 +12,7 @@ namespace SoilMatesDB
 
         Product GetProduct(int id);
         void RemoveProduct(Product product);
+
+        void SaveChanges();
     }
 }

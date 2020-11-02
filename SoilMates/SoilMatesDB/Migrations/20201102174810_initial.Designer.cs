@@ -10,7 +10,7 @@ using SoilMatesDB;
 namespace SoilMatesDB.Migrations
 {
     [DbContext(typeof(SoilMatesContext))]
-    [Migration("20201102073322_initial")]
+    [Migration("20201102174810_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,10 +125,18 @@ namespace SoilMatesDB.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
                     b.HasKey("OrderId");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Orders");
                 });
@@ -168,6 +176,9 @@ namespace SoilMatesDB.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
@@ -184,6 +195,15 @@ namespace SoilMatesDB.Migrations
                     b.HasOne("SoilMatesDB.Models.Product", "Product")
                         .WithMany("ProductLocations")
                         .HasForeignKey("ProductForeingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SoilMatesDB.Models.Order", b =>
+                {
+                    b.HasOne("SoilMatesDB.Models.Location", null)
+                        .WithMany("orderHistory")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

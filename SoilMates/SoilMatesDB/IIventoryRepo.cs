@@ -11,5 +11,7 @@ namespace SoilMatesDB
         List<Inventory> GetInventoryItemByLocationId(int id);
         void RemoveInvetoryItem(Inventory item);
         Inventory GetInventoryItem(int productId, int locationId);
+
+        void SaveChanges();
     }
 }
