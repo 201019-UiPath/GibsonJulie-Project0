@@ -25,9 +25,18 @@ namespace SoilMatesLib
             return repo.GetAllOrders();
         }
 
-        public List<Order> GetOrderByCustomerId(int orderId)
+        public List<Order> GetOrderByCustomerId(int customerId)
         {
-            return repo.GetOrderByCustomerId(orderId);
+            List<Order> ordersForCustomer = new List<Order>();
+            foreach (var item in repo.GetOrderByCustomerId(customerId))
+            {
+                if (item.CustomerId == customerId)
+                {
+                    ordersForCustomer.Add(item);
+                }
+            }
+            return ordersForCustomer;
+
         }
 
         public void SubmitOrder(Order newOrder, int customerId, int storeId, decimal totalPrice)

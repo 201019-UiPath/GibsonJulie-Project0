@@ -51,13 +51,43 @@ namespace SoilMatesUI.Menu
 
                 if (isValidMenuItem && userInput.Equals("1"))
                 {
-                    //Console.WriteLine("Order history by price [0] or by date [1]"); // TODO
-                    foreach (var allOrders in orderService.GetOrderByCustomerId(user.Id))
-                    {
-                        Console.WriteLine($"{allOrders.OrderId} {allOrders.OrderTime} ");
-                    }
+                    GetOrderHistory(user);
+
                 }
             } while (!isValidMenuItem || !userInput.Equals("x"));
+        }
+
+        public void GetOrderHistory(User user)
+        {
+            Console.WriteLine("Order history by: \n[0] Date (Most recent) \n[1] Price (lowest to highest) "); // TODO
+
+            string orderBy = Console.ReadLine();
+            List<Order> _orders = orderService.GetOrderByCustomerId(user.Id);
+            if (orderBy.Equals("0"))
+            {
+                _orders.Sort((x, y) => DateTime.Compare(y.OrderTime, x.OrderTime));
+                foreach (var myOrder in _orders)
+                {
+                    Console.WriteLine($"Time of Order: {myOrder.OrderTime}  Total Purchase Price: {myOrder.TotalPrice}");
+                    foreach (var _product in myOrder.LineItem)
+                    {
+                        Console.WriteLine($"\tProduct Id: {_product.Product.ProductId} \tProduct Name: {_product.Product.Name} \tProduct Price: {_product.Product.Price}");
+                    }
+                }
+            }
+
+            if (orderBy.Equals("1"))
+            {
+                _orders.Sort((x, y) => Decimal.Compare(x.TotalPrice, y.TotalPrice));
+                foreach (var myOrder in _orders)
+                {
+                    Console.WriteLine($"Time of Order: {myOrder.OrderTime}  Total Purchase Price: {myOrder.TotalPrice}");
+                    foreach (var _product in myOrder.LineItem)
+                    {
+                        Console.WriteLine($"\tProduct Id: {_product.Product.ProductId} \tProduct Name: {_product.Product.Name} \tProduct Price: {_product.Product.Price}");
+                    }
+                }
+            }
 
         }
 
@@ -98,12 +128,12 @@ namespace SoilMatesUI.Menu
                     }
                 }
 
+
                 int productId = Int32.Parse(Console.ReadLine());
                 Product soldProduct = productService.GetProduct(productId);
                 totalPrice += soldProduct.Price;
                 Inventory updateInventoryItem = inventoryService.GetInventoryItem(productId, storeID);
-                updateInventoryItem.Quantity--;
-
+                updateInventoryItem.Quantity--; //TODO can purchase more than one at a time use data layer to make sure you can buy that quantity
 
                 OrderProduct itemInCart = new OrderProduct();
                 itemInCart.Product = soldProduct;
@@ -124,6 +154,8 @@ namespace SoilMatesUI.Menu
             newOrder.Address = address;
             orderService.SaveChanges();
         }
+
+
 
     }
 

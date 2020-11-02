@@ -157,23 +157,6 @@ namespace SoilMatesDB
             SaveChanges();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public void AddOrderProduct(OrderProduct lineItem)
         {
             context.OrderProducts.Add(lineItem);
@@ -216,9 +199,6 @@ namespace SoilMatesDB
             }
         }
 
-
-
-
         public OrderProduct GetOrderProduct(int orderId, int productId)
         {
             return (OrderProduct)context.OrderProducts.FirstOrDefault(x => x.OrderForiegnId == orderId && x.ProductForiegnId == productId);
@@ -228,7 +208,6 @@ namespace SoilMatesDB
         {
             return context.OrderProducts.Include(s => s).ToList();
         }
-
 
         public List<Manager> GetAllManagers()
         {
@@ -264,7 +243,7 @@ namespace SoilMatesDB
         public List<Order> GetOrderByCustomerId(int id)
         {
 
-            return context.Orders.Where(s => s.CustomerId == id).ToList();
+            return context.Orders.Include(s => s.LineItem).ThenInclude(s => s.Product).ToList();
         }
 
         public Product GetProductByName(string name)
@@ -277,14 +256,10 @@ namespace SoilMatesDB
             return (Manager)context.Managers.FirstOrDefault(x => x.Password == password && x.Email == email);
         }
 
-
-
         public void SaveChanges()
         {
             context.SaveChanges();
         }
-
-
 
         public void RemoveProduct(Product product)
         {
