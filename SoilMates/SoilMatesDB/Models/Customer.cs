@@ -9,7 +9,7 @@ namespace SoilMatesDB.Models
     /// </summary>
     public class Customer : User
     {
-        public int CustomerId { get; set; }
+
 
     }
 }

@@ -17,8 +17,7 @@ namespace SoilMatesDB.Migrations
                     UserType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    CustomerId = table.Column<int>(nullable: false)
+                    Password = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,8 +47,7 @@ namespace SoilMatesDB.Migrations
                     UserType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    ManagerId = table.Column<int>(nullable: false)
+                    Password = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

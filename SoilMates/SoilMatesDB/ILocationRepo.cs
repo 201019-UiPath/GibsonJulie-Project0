@@ -12,10 +12,6 @@ namespace SoilMatesDB
 
         Location GetLocationById(int id);
 
-        Location GetLocationByName(string name);
-
-        Location GetLocationByLocation(string location);
-
         void RemoveLocation(Location location);
     }
 }

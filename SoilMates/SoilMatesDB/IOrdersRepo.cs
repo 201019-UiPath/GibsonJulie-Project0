@@ -9,7 +9,7 @@ namespace SoilMatesDB
         void AddOrder(Order order);
         List<Order> GetAllOrders();
 
-        Order GetOrderById(int id);
+        List<Order> GetOrderByCustomerId(int id);
 
     }
 }

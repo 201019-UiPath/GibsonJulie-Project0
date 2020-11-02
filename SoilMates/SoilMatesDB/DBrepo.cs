@@ -9,7 +9,7 @@ using System;
 
 namespace SoilMatesDB
 {
-    public class DBrepo : ICustomerRepo, ILocationRepo, IOrdersRepo, IProductRepo, IIventoryRepo, IManagerRepo, IRepository
+    public class DBrepo : ICustomerRepo, ILocationRepo, IOrdersRepo, IProductRepo, IIventoryRepo, IManagerRepo, IRepository, IOrderProduct
     {
         private SoilMatesContext context;
 
@@ -24,16 +24,39 @@ namespace SoilMatesDB
             context.SaveChanges();
             Console.WriteLine("Sign Up successfull!\n");
         }
+        public List<Customer> GetAllCustomers()
+        {
+            return context.Customers.Include(customer => customer).ToList();
+        }
+        public Customer GetCustomer(int id)
+        {
+            return (Customer)context.Customers.FirstOrDefault(x => x.Id == id);
+        }
+        public Customer GetCustomer(string name)
+        {
+            return (Customer)context.Customers.FirstOrDefault(x => x.Name == name);
+        }
+        public Customer GetCustomerByLogin(string password, string email)
+        {
+            return (Customer)context.Customers.FirstOrDefault(x => x.Password == password && x.Email == email);
+        }
+
+
+
+
+
+
+
+
 
         public void AddInventory(Inventory inventory)
         {
             //if product location combination exists just update quantity
-
-            Console.WriteLine("Duplicate Inventory item, increasing quanity");
             Inventory item = GetInventoryItem(inventory.ProductForeingId, inventory.LocationForeignId);
             if (item == null)
             {
                 //item not in inventory 
+
                 context.Inventories.Add(inventory);
             }
             else
@@ -45,6 +68,46 @@ namespace SoilMatesDB
             //context.Inventories.Add(inventory);
             //context.SaveChanges();
         }
+
+
+        public Inventory GetInventoryItem(int productId, int locationId)
+        {
+            return (Inventory)context.Inventories.FirstOrDefault(x => x.ProductForeingId == productId && x.LocationForeignId == locationId);
+        }
+
+        public List<Inventory> GetAllInventory()
+        {
+            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
+        }
+
+        public List<Inventory> GetInventoryItemByProductId(int id)
+        {
+            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
+        }
+
+        public List<Inventory> GetInventoryItemByLocationId(int id)
+        {
+            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
+
+        }
+
+        public List<Inventory> GetProductsByLocationId(Location location)
+        {
+            return context.Inventories.Include(i => i.Location).Include(i => i.Product).Include(i => i.Quantity).ToList();
+
+
+        }
+
+        public List<Inventory> GetLocationsByProductId(Product product)
+        {
+            return context.Inventories.Select(s => s).Where(x => x.Product.Description == product.Description).ToList();
+        }
+
+
+
+
+
+
 
         public void AddLocation(Location location)
         {
@@ -58,7 +121,7 @@ namespace SoilMatesDB
             }
             else
             {
-                Location isDuplicate = GetLocationByName(location.Name);
+                Location isDuplicate = GetLocationById(location.LocationId);
                 if (isDuplicate == null)
                 {
                     context.Locations.Add(location);
@@ -77,6 +140,43 @@ namespace SoilMatesDB
 
                 }
             }
+        }
+
+        public List<Location> GetAllLocations()
+        {
+            return context.Locations.Include(s => s.StoreProducts).ToList();
+        }
+
+        public Location GetLocationById(int id)
+        {
+            return (Location)context.Locations.Include(x => x.StoreProducts).ThenInclude(x => x.Product).FirstOrDefault(x => x.LocationId == id);
+        }
+        public void RemoveLocation(Location location)
+        {
+            context.Locations.Remove(location);
+            SaveChanges();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void AddOrderProduct(OrderProduct lineItem)
+        {
+            context.OrderProducts.Add(lineItem);
         }
 
         public void AddManager(Manager manager)
@@ -116,26 +216,19 @@ namespace SoilMatesDB
             }
         }
 
-        public List<Customer> GetAllCustomers()
-        {
-            return context.Customers.Include(customer => customer).ToList();
-        }
-
-        public List<Inventory> GetAllInventory()
-        {
-            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
-        }
-
-        public Inventory GetInventoryItem(int productId, int locationId)
-        {
-            return (Inventory)context.Inventories.FirstOrDefault(x => x.ProductForeingId == productId && x.LocationForeignId == locationId);
-        }
 
 
-        public List<Location> GetAllLocations()
+
+        public OrderProduct GetOrderProduct(int orderId, int productId)
         {
-            return context.Locations.Include(s => s.StoreProducts).ToList();
+            return (OrderProduct)context.OrderProducts.FirstOrDefault(x => x.OrderForiegnId == orderId && x.ProductForiegnId == productId);
         }
+
+        public List<OrderProduct> GetAllOrderProduct()
+        {
+            return context.OrderProducts.Include(s => s).ToList();
+        }
+
 
         public List<Manager> GetAllManagers()
         {
@@ -162,57 +255,16 @@ namespace SoilMatesDB
             return (Product)context.Products.FirstOrDefault(x => x.ProductId == id);
         }
 
-        public Customer GetCustomer(int id)
-        {
-            return (Customer)context.Customers.FirstOrDefault(x => x.Id == id);
-        }
-
-        public Customer GetCustomer(string name)
-        {
-            return (Customer)context.Customers.FirstOrDefault(x => x.Name == name);
-        }
-
-        public Location GetLocationByName(string name)
-        {
-            return (Location)context.Locations.FirstOrDefault(x => x.Name == name);
-        }
-
-        public Location GetLocationByLocation(string address)
-        {
-            return (Location)context.Locations.FirstOrDefault(x => x.Address == address);
-        }
-
-
-        public List<Inventory> GetInventoryItemByProductId(int id)
-        {
-            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
-        }
-
-        public List<Inventory> GetInventoryItemByLocationId(int id)
-        {
-            return context.Inventories.Include(inventory => inventory.Product).Include(inventory => inventory.Location).ToList();
-
-        }
-
-
-        public Customer GetCustomerByLogin(string password, string email)
-        {
-            return (Customer)context.Customers.FirstOrDefault(x => x.Password == password && x.Email == email);
-        }
-
-        public Location GetLocationById(int id)
-        {
-            return (Location)context.Locations.Include(x => x.StoreProducts).ThenInclude(x => x.Product).FirstOrDefault();
-        }
 
         public Manager GetManagerById(int id)
         {
             return (Manager)context.Managers.FirstOrDefault(x => x.Id == id);
         }
 
-        public Order GetOrderById(int id)
+        public List<Order> GetOrderByCustomerId(int id)
         {
-            return (Order)context.Orders.FirstOrDefault(x => x.OrderId == id);
+
+            return context.Orders.Where(s => s.CustomerId == id).ToList();
         }
 
         public Product GetProductByName(string name)
@@ -225,31 +277,14 @@ namespace SoilMatesDB
             return (Manager)context.Managers.FirstOrDefault(x => x.Password == password && x.Email == email);
         }
 
-        public List<Inventory> GetAllInInventory()
-        {
-            return context.Inventories.Select(s => s).ToList();
-        }
 
-        public List<Inventory> GetProductsByLocationId(Location location)
-        {
-            return context.Inventories.Select(s => s).Where(x => x.Location.Name == location.Name).ToList();
-        }
-
-        public List<Inventory> GetLocationsByProductId(Product product)
-        {
-            return context.Inventories.Select(s => s).Where(x => x.Product.Description == product.Description).ToList();
-        }
 
         public void SaveChanges()
         {
             context.SaveChanges();
         }
 
-        public void RemoveLocation(Location location)
-        {
-            context.Locations.Remove(location);
-            SaveChanges();
-        }
+
 
         public void RemoveProduct(Product product)
         {

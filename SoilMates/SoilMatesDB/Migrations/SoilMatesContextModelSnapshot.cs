@@ -26,9 +26,6 @@ namespace SoilMatesDB.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -98,9 +95,6 @@ namespace SoilMatesDB.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
-
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");

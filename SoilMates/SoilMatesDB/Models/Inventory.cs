@@ -2,6 +2,10 @@ namespace SoilMatesDB.Models
 {
     public class Inventory
     {
+        public Inventory()
+        {
+            Quantity = 1;
+        }
         public int InventoryId { get; set; }
         public int Quantity { get; set; }
 

@@ -6,13 +6,10 @@ namespace SoilMatesDB
     public interface IIventoryRepo
     {
         List<Inventory> GetAllInventory();
-
         void AddInventory(Inventory item);
-
         List<Inventory> GetInventoryItemByProductId(int id);
         List<Inventory> GetInventoryItemByLocationId(int id);
-
-        List<Inventory> GetAllInInventory();
         void RemoveInvetoryItem(Inventory item);
+        Inventory GetInventoryItem(int productId, int locationId);
     }
 }
