@@ -110,7 +110,15 @@ namespace SoilMatesUI.Menu
             newProduct.Description = Console.ReadLine();
             Console.WriteLine("Add plant price:");
             newProduct.Price = Convert.ToDecimal(Console.ReadLine());
-            productService.AddProduct(newProduct);
+            try
+            {
+                productService.AddProduct(newProduct);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
             productService.SaveChanges();
 
             Console.WriteLine("New plant added! All plants listed below:");
