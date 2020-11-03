@@ -1,11 +1,12 @@
 using System;
 using SoilMatesBL;
 using SoilMatesDB;
+using Serilog;
 
 namespace SoilMatesUI.Menu
 {
     /// <summary>
-    /// Menu Interface for users of soilMates console application 
+    /// Menu for users of soilMates console application, implements IMenu
     /// </summary>
     public class MainMenu : IMenu
     {
@@ -23,7 +24,14 @@ namespace SoilMatesUI.Menu
 
         public void Start()
         {
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.File(@"/Log/MainMenuLog.txt")
+            .CreateLogger();
+
+
             Console.WriteLine("Welcome to SoilMates!");
+            Log.Verbose("Main Menu started.");
 
             bool isValidInput;
             do

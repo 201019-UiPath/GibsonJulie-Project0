@@ -1,6 +1,3 @@
-using System.Reflection;
-using System.Linq.Expressions;
-using System.Text.RegularExpressions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -22,7 +19,7 @@ namespace SoilMatesDB
         {
             context.Customers.Add(customer);
             context.SaveChanges();
-            Console.WriteLine("Sign Up successfull!\n");
+            // Console.WriteLine("Sign Up successfull!\n");
         }
         public List<Customer> GetAllCustomers()
         {

@@ -19,6 +19,10 @@ namespace SoilMatesDB
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
+        public SoilMatesContext() { }
+
+        public SoilMatesContext(DbContextOptions<SoilMatesContext> options) : base(options) { }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
