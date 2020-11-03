@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore.InMemory;
 
 namespace SoilMatesTest.SoilMatesDBTest
 {
+    /// <summary>
+    /// Test database methods
+    /// </summary>
     public class DBRepoTest
     {
         private DBrepo repo;
@@ -147,7 +150,6 @@ namespace SoilMatesTest.SoilMatesDBTest
        };
 
 
-
         private void seed(SoilMatesContext testcontext)
         {
             testcontext.Customers.AddRange(testCustomers);
@@ -159,6 +161,9 @@ namespace SoilMatesTest.SoilMatesDBTest
         }
 
 
+        /// <summary>
+        /// Tests if customer is added to repository correctly
+        /// </summary>
         [Fact]
         public void AddCustomerShouldAdd()
         {
@@ -175,6 +180,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.Customers.SingleAsync(n => n.Name == testCustomer.Name));
         }
 
+        /// <summary>
+        /// Test if manager is added to repository
+        /// </summary>
         [Fact]
         public void AddManagerShouldAdd()
         {
@@ -191,6 +199,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.Managers.SingleAsync(n => n.Name == testManager.Name));
         }
 
+        /// <summary>
+        /// Test if inventory is added to repository correctly
+        /// </summary>
         [Fact]
         public void AddInventoryShouldAdd()
         {
@@ -207,6 +218,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.Inventories.SingleAsync(n => n.InventoryId == testInventory.InventoryId));
         }
 
+        /// <summary>
+        /// Test if location is added to repository
+        /// </summary>
         [Fact]
         public void AddLocationShouldAdd()
         {
@@ -223,6 +237,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.Inventories.SingleAsync(n => n.InventoryId == testInventory.InventoryId));
         }
 
+        /// <summary>
+        /// Test if order is added to repository
+        /// </summary>
         [Fact]
         public void AddOrderShouldAdd()
         {
@@ -239,6 +256,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.Orders.SingleAsync(n => n.OrderId == testOrder.OrderId));
         }
 
+        /// <summary>
+        /// Test if add OrderProduct is added to repository
+        /// </summary>
         [Fact]
         public void AddOrderProductShouldAdd()
         {
@@ -255,6 +275,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.OrderProducts.SingleAsync(n => n.Id == testOrderProduct.Id));
         }
 
+        /// <summary>
+        /// Test if Product is added to repository
+        /// </summary>
         [Fact]
         public void AddProductShouldAdd()
         {
@@ -271,6 +294,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.NotNull(assertContext.Products.SingleAsync(n => n.Name == testProduct.Name));
         }
 
+        /// <summary>
+        /// Test if GetCustomer method returns customer by id
+        /// </summary>
         [Fact]
         public void GetCustomerShouldGet()
         {
@@ -287,6 +313,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.Equal("Will", result.Name);
         }
 
+        /// <summary>
+        /// Test if manager can be retrieved by manager id
+        /// </summary>
         [Fact]
         public void GetManagerShouldGet()
         {
@@ -303,6 +332,9 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.Equal("Babish", result.Name);
         }
 
+        /// <summary>
+        /// Test if product can be retrieved from repository by product id
+        /// </summary>
         [Fact]
         public void GetProductShouldGet()
         {

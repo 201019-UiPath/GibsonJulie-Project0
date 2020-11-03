@@ -5,6 +5,9 @@ using System.IO;
 
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// SoilMates database context
+    /// </summary>
     public class SoilMatesContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
@@ -21,6 +24,11 @@ namespace SoilMatesDB
 
         public SoilMatesContext() { }
 
+        /// <summary>
+        /// Constructor for context given options 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public SoilMatesContext(DbContextOptions<SoilMatesContext> options) : base(options) { }
 
 
@@ -37,6 +45,7 @@ namespace SoilMatesDB
                 optionsBuilder.UseNpgsql(connectionString);
             }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Inventory>()

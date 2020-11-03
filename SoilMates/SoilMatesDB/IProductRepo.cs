@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using SoilMatesDB.Models;
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// Interface for product repo
+    /// </summary>
     public interface IProductRepo
     {
         void AddProduct(Product product);

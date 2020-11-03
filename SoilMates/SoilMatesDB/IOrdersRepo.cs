@@ -4,6 +4,9 @@ using SoilMatesDB.Models;
 
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// Interface for Orders repository
+    /// </summary>
     public interface IOrdersRepo
     {
         void AddOrder(Order order);

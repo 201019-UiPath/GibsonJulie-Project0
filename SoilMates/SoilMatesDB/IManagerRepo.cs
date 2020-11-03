@@ -4,6 +4,9 @@ using SoilMatesDB.Models;
 
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// Interface for manager repository
+    /// </summary>
     public interface IManagerRepo
     {
         void AddManager(Manager manager);

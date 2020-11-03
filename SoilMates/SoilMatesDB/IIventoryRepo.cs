@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// Interface for Inventory Repository
+    /// </summary>
     public interface IIventoryRepo
     {
         List<Inventory> GetAllInventory();
@@ -11,7 +14,6 @@ namespace SoilMatesDB
         List<Inventory> GetInventoryItemByLocationId(int id);
         void RemoveInvetoryItem(Inventory item);
         Inventory GetInventoryItem(int productId, int locationId);
-
         void SaveChanges();
     }
 }

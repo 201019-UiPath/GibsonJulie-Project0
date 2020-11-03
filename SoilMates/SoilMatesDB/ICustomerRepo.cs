@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// Interface for customer repository
+    /// </summary>
     public interface ICustomerRepo
     {
         void AddCustomer(Customer customer);

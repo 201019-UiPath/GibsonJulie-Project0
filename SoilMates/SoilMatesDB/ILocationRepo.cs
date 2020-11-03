@@ -4,6 +4,9 @@ using SoilMatesDB.Models;
 
 namespace SoilMatesDB
 {
+    /// <summary>
+    /// Interface for location Repository
+    /// </summary>
     public interface ILocationRepo
     {
         List<Location> GetAllLocations();
