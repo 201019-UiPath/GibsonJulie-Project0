@@ -84,7 +84,13 @@ namespace SoilMatesLib
             item.Quantity = quantity;
         }
 
-
-
+        public void SoldInventoryUpdate(Inventory item, int quantity)
+        {
+            if (item.Quantity < quantity)
+            {
+                throw new System.Exception("Quantity cannot excede inventory");
+            }
+            item.Quantity -= quantity;
+        }
     }
 }

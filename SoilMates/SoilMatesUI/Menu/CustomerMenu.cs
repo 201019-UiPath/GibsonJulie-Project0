@@ -12,13 +12,9 @@ namespace SoilMatesUI.Menu
         ProductService productService;
         LocationService locationService;
         InventoryService inventoryService;
-
         OrderService orderService;
         IRepository repo;
-
         OrderProductService orderProductService;
-
-
         private string userInput;
         private IMenuBL menuBL = new MenuBL();
 
@@ -56,6 +52,8 @@ namespace SoilMatesUI.Menu
                 }
             } while (!isValidMenuItem || !userInput.Equals("x"));
         }
+
+
 
         public void GetOrderHistory(User user)
         {
@@ -127,18 +125,28 @@ namespace SoilMatesUI.Menu
                         Console.WriteLine($"\tproduct id: {invetoryItem.ProductForeingId} \tProduct name: {invetoryItem.Product.Name}  \tquantity: {invetoryItem.Quantity}");
                     }
                 }
-
-
                 int productId = Int32.Parse(Console.ReadLine());
                 Product soldProduct = productService.GetProduct(productId);
-                totalPrice += soldProduct.Price;
-                Inventory updateInventoryItem = inventoryService.GetInventoryItem(productId, storeID);
-                updateInventoryItem.Quantity--; //TODO can purchase more than one at a time use data layer to make sure you can buy that quantity
 
+                Console.WriteLine("Type quantity of item to purchase:");
+                int amountItem = Int32.Parse(Console.ReadLine());
+
+                //totalPrice += soldProduct.Price;
+                Inventory updateInventoryItem = inventoryService.GetInventoryItem(productId, storeID);
+                try
+                {
+                    inventoryService.SoldInventoryUpdate(updateInventoryItem, amountItem);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    input = "c";
+                    continue;
+                }
+                //updateInventoryItem.Quantity--; //TODO can purchase more than one at a time use data layer to make sure you can buy that quantity
+                totalPrice += (amountItem * soldProduct.Price);
                 OrderProduct itemInCart = new OrderProduct();
-                itemInCart.Product = soldProduct;
-                itemInCart.ProductForiegnId = soldProduct.ProductId;
-                itemInCart.Order = newOrder;
+                orderProductService.UpdateOrderProductInCart(itemInCart, soldProduct, newOrder);
                 orderProductService.AddOrderProduct(itemInCart);
                 newOrder.LineItem.Add(itemInCart);
 
@@ -154,9 +162,5 @@ namespace SoilMatesUI.Menu
             newOrder.Address = address;
             orderService.SaveChanges();
         }
-
-
-
     }
-
 }

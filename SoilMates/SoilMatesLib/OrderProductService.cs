@@ -45,6 +45,14 @@ namespace SoilMatesLib
             return repo.GetAllOrderProduct();
         }
 
+        public void UpdateOrderProductInCart(OrderProduct itemInCart, Product soldProduct, Order newOrder)
+        {
+            itemInCart.OrderForiegnId = newOrder.OrderId;
+            itemInCart.Product = soldProduct;
+            itemInCart.ProductForiegnId = soldProduct.ProductId;
+            itemInCart.Order = newOrder;
+        }
+
 
     }
 }
