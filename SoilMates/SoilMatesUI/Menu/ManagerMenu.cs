@@ -83,9 +83,17 @@ namespace SoilMatesUI.Menu
             Console.WriteLine("Enter location address");
             newLocation.Address = Console.ReadLine();
 
-            locationService.AddLocation(newLocation);
-            locationService.SaveChanges();
+            try
+            {
+                locationService.AddLocation(newLocation);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
 
+            locationService.SaveChanges();
             Console.WriteLine("New Location added! All locations listed below:");
             foreach (var location in locationService.GetAllLocations())
             {
