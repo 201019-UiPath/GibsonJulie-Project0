@@ -5,6 +5,9 @@ using SoilMatesLib;
 
 namespace SoilMatesUI.Menu
 {
+    /// <summary>
+    /// Login menu class
+    /// </summary>
     public class LoginMenu : IMenu
     {
         string userInput;
@@ -13,6 +16,11 @@ namespace SoilMatesUI.Menu
         ManagerService managerService;
         CustomerMenu customerMenu;
         ManagerMenu managerMenu;
+
+        /// <summary>
+        /// Login menu constructor
+        /// </summary>
+        /// <param name="userRepo"></param>
         public LoginMenu(IRepository userRepo)
         {
             this.userRepo = userRepo;
@@ -22,6 +30,9 @@ namespace SoilMatesUI.Menu
             this.managerMenu = new ManagerMenu(userRepo);
         }
 
+        /// <summary>
+        /// Entry point for login UI
+        /// </summary>
         public void Start()
         {
             Console.WriteLine("Welcome, please sign in: ");
@@ -53,6 +64,10 @@ namespace SoilMatesUI.Menu
             }
         }
 
+        /// <summary>
+        /// Gets customer details for login
+        /// </summary>
+        /// <returns></returns>
         public Customer GetCustomerDetails()
         {
             Console.WriteLine("Enter your Email: ");
@@ -61,6 +76,11 @@ namespace SoilMatesUI.Menu
             string pw = Console.ReadLine();
             return userRepo.GetCustomerByLogin(pw, email); //TODO use Business layer to input validate user
         }
+
+        /// <summary>
+        /// Gets manager details for login
+        /// </summary>
+        /// <returns></returns>
         public Manager GetManagerDetails()
         {
             Console.WriteLine("Enter your Email: ");

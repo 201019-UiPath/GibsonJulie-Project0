@@ -13,7 +13,6 @@ namespace SoilMatesDB.Models
         public string Address { get; set; }
 
         public List<Inventory> StoreProducts { get; set; }
-        //Location should have records of order history
 
         public List<Order> orderHistory { get; set; }
 

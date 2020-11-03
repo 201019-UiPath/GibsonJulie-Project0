@@ -22,14 +22,11 @@ namespace SoilMatesUI.Menu
             this._signupMenu = new SignupMenu(repository);
         }
 
+        /// <summary>
+        /// entry point for main menu UI
+        /// </summary>
         public void Start()
         {
-            Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Verbose()
-            .WriteTo.File(@"/Log/MainMenuLog.txt")
-            .CreateLogger();
-
-
             Console.WriteLine("Welcome to SoilMates!");
             Log.Verbose("Main Menu started.");
 
@@ -41,7 +38,7 @@ namespace SoilMatesUI.Menu
                 Console.WriteLine("[1] Login");
                 Console.WriteLine("[x] Exit");
                 userInput = Console.ReadLine();
-                isValidInput = menuBL.SignInInputValidation(userInput);  //TODO 
+                isValidInput = menuBL.SignInInputValidation(userInput);
 
                 switch (userInput)
                 {

@@ -8,7 +8,7 @@ namespace SoilMatesUI.Menu
 {
     public class SignupMenu : IMenu
     {
-        int customerUser = 0;
+        int customerUser = 0; //to determine type of user 
         int managerUser = 1;
         string userInput;
         IRepository userRepo;
@@ -17,6 +17,10 @@ namespace SoilMatesUI.Menu
 
         IMenuBL menuBL = new MenuBL();
 
+        /// <summary>
+        /// Signup menu UI constructor
+        /// </summary>
+        /// <param name="repo"></param>
         public SignupMenu(IRepository repo)
         {
             this.userRepo = repo;
@@ -24,6 +28,9 @@ namespace SoilMatesUI.Menu
             this.managerService = new ManagerService(userRepo);
         }
 
+        /// <summary>
+        /// Entry point for signup menu UI
+        /// </summary>
         public void Start()
         {
             Console.WriteLine("[0] Customer");
@@ -47,6 +54,10 @@ namespace SoilMatesUI.Menu
             }
         }
 
+        /// <summary>
+        /// Get manger details from user
+        /// </summary>
+        /// <returns></returns>
         public Manager GetManagerDetails()
         {
             Manager user = new Manager();
@@ -65,13 +76,17 @@ namespace SoilMatesUI.Menu
 
         }
 
+        /// <summary>
+        /// Get customer details
+        /// </summary>
+        /// <returns></returns>
         public Customer GetCustomerDetails()
         {
             Customer user = new Customer();
             do
             {
                 Console.WriteLine("Please enter your information to sign up to SoilMates");
-                //TODO use Business layer to input validate user
+                //TODO use Business layer to input validate user details
                 Console.WriteLine("Enter your name:");
                 user.Name = Console.ReadLine();
                 Console.WriteLine("Enter your Email: ");
@@ -80,11 +95,11 @@ namespace SoilMatesUI.Menu
                 user.Password = Console.ReadLine();
                 user.UserType = customerUser;
 
+                //TODO make customer controller and add to constuctor!!!
+
             } while (!menuBL.NameValidation(user.Name) || !menuBL.EmailValidation(user.Email));
 
             return user;
         }
-
-
     }
 }

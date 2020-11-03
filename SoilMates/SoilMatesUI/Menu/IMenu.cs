@@ -1,24 +1,13 @@
 namespace SoilMatesUI.Menu
 {
     /// <summary>
-    /// Main Menu for application
+    /// Main Menu interface for application
     /// </summary>
     public interface IMenu
     {
-        /// <summary>
-        /// Provides Welcome greeting and presents user with sign in option
+        ///<summary>
+        /// Provides entry point for UI menus
         /// </summary>
         void Start();
-
-        // void PrintCustomerMenuOptions();
-
-        //void SignUpMenu();
-
-        //void LoginMenu();
-
-        //void PrintEmployeeMenu();
-
-        //void SelectSignInMenu();
-
     }
 }

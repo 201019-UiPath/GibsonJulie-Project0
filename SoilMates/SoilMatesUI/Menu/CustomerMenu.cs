@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace SoilMatesUI.Menu
 {
+    /// <summary>
+    /// Customer specific menu user interface
+    /// </summary>
     public class CustomerMenu
     {
         ProductService productService;
@@ -18,6 +21,10 @@ namespace SoilMatesUI.Menu
         private string userInput;
         private IMenuBL menuBL = new MenuBL();
 
+        /// <summary>
+        /// Customer menu constructor
+        /// </summary>
+        /// <param name="repo"></param>
         public CustomerMenu(IRepository repo)
         {
             this.repo = repo;
@@ -29,6 +36,10 @@ namespace SoilMatesUI.Menu
         }
 
 
+        /// <summary>
+        /// Entry point for customer UI
+        /// </summary>
+        /// <param name="user"></param>
         public void Start(Customer user)
         {
             Console.WriteLine();
@@ -50,11 +61,18 @@ namespace SoilMatesUI.Menu
                     GetOrderHistory(user);
 
                 }
+                if (isValidMenuItem && userInput.Equals("2"))
+                {
+                    GetLocationInventory();
+                }
             } while (!isValidMenuItem || !userInput.Equals("x"));
         }
 
 
-
+        /// <summary>
+        /// Gets user details to retrieve order history based on price or time of order
+        /// </summary>
+        /// <param name="user"></param>
         public void GetOrderHistory(User user)
         {
             Console.WriteLine("Order history by: \n[0] Date (Most recent) \n[1] Price (lowest to highest) "); // TODO
@@ -89,17 +107,44 @@ namespace SoilMatesUI.Menu
 
         }
 
+        /// <summary>
+        ///  Prints location inventory given location id
+        /// </summary>
+        /// <param name="user"></param>
+        public void GetLocationInventory()
+        {
+            Console.WriteLine("Enter store id to print inventory:");
+            foreach (var store in locationService.GetAllLocations())
+            {
+                Console.WriteLine($"\tlocation id: {store.LocationId} \tlocations: {store.Name}  \tAddress: {store.Address}");
+            }
+            int storeId = Int32.Parse(Console.ReadLine());
+
+            foreach (var plant in inventoryService.GetInvetoryItemByLocationId(storeId))
+            {
+                if (plant.Location.LocationId == storeId)
+                    Console.WriteLine($"\tLocation id: {plant.Location.LocationId} \tquantity: {plant.Quantity}\tName: {plant.Product.Name} ");
+            }
+        }
+
+        /// <summary>
+        /// prints menu options for customer
+        /// </summary>
         public void PrintCustomerMenuOptions()
         {
 
-            Console.WriteLine("[0] Order A Plant");                 //shop by plant
-            Console.WriteLine("[1] View Order History");                  //shop by inventory at a location
-            Console.WriteLine("[2] View Location Inventory");
-            Console.WriteLine("[x] Exit");                          //remove product
+            Console.WriteLine("[0] Order A Plant");
+            Console.WriteLine("[1] View Order History");
+            Console.WriteLine("[2] View Location Inventory"); //TODP
+            Console.WriteLine("[x] Exit");
 
             userInput = Console.ReadLine();
         }
 
+        /// <summary>
+        /// Order plant from store 
+        /// </summary>
+        /// <param name="user"></param>
         public void OrderPlant(Customer user)
         {
             Decimal totalPrice = 0;
@@ -131,7 +176,6 @@ namespace SoilMatesUI.Menu
                 Console.WriteLine("Type quantity of item to purchase:");
                 int amountItem = Int32.Parse(Console.ReadLine());
 
-                //totalPrice += soldProduct.Price;
                 Inventory updateInventoryItem = inventoryService.GetInventoryItem(productId, storeID);
                 try
                 {
@@ -140,10 +184,9 @@ namespace SoilMatesUI.Menu
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    input = "c";
+                    input = "c"; //user input to continue shopping
                     continue;
                 }
-                //updateInventoryItem.Quantity--; //TODO can purchase more than one at a time use data layer to make sure you can buy that quantity
                 totalPrice += (amountItem * soldProduct.Price);
                 OrderProduct itemInCart = new OrderProduct();
                 orderProductService.UpdateOrderProductInCart(itemInCart, soldProduct, newOrder);
@@ -156,7 +199,6 @@ namespace SoilMatesUI.Menu
             } while (!input.Equals("x"));
 
             orderService.SubmitOrder(newOrder, user.Id, storeID, totalPrice);
-
             Console.WriteLine("Enter shipping address:");
             string address = Console.ReadLine();
             newOrder.Address = address;

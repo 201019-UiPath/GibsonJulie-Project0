@@ -175,11 +175,11 @@ namespace SoilMatesUI.Menu
             }
             int storeId = Int32.Parse(Console.ReadLine());
 
-
+            Console.WriteLine("Products at selected location:");
             foreach (var plant in inventoryService.GetInvetoryItemByLocationId(storeId))
             {
                 if (plant.Location.LocationId == storeId)
-                    Console.WriteLine($"\tLocation id: {plant.Location.LocationId} \tquantity: {plant.Quantity}\tName: {plant.Product.Name} ");
+                    Console.WriteLine($"\tquantity: {plant.Quantity}\tName: {plant.Product.Name} ");
             }
         }
 
