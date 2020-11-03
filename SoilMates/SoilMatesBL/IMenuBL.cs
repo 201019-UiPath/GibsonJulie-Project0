@@ -1,5 +1,8 @@
 namespace SoilMatesBL
 {
+    /// <summary>
+    /// Interface for menu user input validation
+    /// </summary>
     public interface IMenuBL
     {
         bool SignInInputValidation(string input);

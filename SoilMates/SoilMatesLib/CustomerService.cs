@@ -16,6 +16,7 @@ namespace SoilMatesLib
         public void AddCustomer(Customer newCustomer)
         {
             repo.AddCustomer(newCustomer);
+            repo.SaveChanges();
         }
 
         public List<Customer> GetAllCustomers()

@@ -1,5 +1,8 @@
 namespace SoilMatesDB.Models
 {
+    /// <summary>
+    /// User model to create managers and customers
+    /// </summary>
     public class User
     {
         public int Id { get; set; }

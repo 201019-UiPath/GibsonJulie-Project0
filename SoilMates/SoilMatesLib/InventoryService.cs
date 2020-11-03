@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SoilMatesDB;
 using SoilMatesDB.Models;
+using System;
 
 namespace SoilMatesLib
 {
@@ -22,7 +23,19 @@ namespace SoilMatesLib
         /// <param name="inventory"></param>
         public void AddInventory(Inventory inventory)
         {
-            repo.AddInventory(inventory);
+            //if product location combination exists just update quantity
+            Inventory item = GetInventoryItem(inventory.ProductForeingId, inventory.LocationForeignId);
+            if (item == null)
+            {
+                repo.AddInventory(inventory);
+            }
+            // else
+            // {
+            //     Console.WriteLine("Increased item quantity");
+            //     //increase quantity in inventory
+            //     item.Quantity++;
+            // }
+
         }
 
         /// <summary>
@@ -74,21 +87,34 @@ namespace SoilMatesLib
             return repo.GetInventoryItem(productId, locationId);
         }
 
+        /// <summary>
+        /// Save changes in repository
+        /// </summary>
         public void SaveChanges()
         {
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Update quantity if inventory item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="quantity"></param>
         public void UpdateQuantity(Inventory item, int quantity)
         {
             item.Quantity = quantity;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="quantity"></param>
         public void SoldInventoryUpdate(Inventory item, int quantity)
         {
             if (item.Quantity < quantity)
             {
-                throw new System.Exception("Quantity cannot excede inventory");
+                throw new System.Exception("Quantity sold cannot excede amount inventory, continue with order. ");
             }
             item.Quantity -= quantity;
         }

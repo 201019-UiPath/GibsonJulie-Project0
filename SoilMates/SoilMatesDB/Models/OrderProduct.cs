@@ -1,5 +1,8 @@
 namespace SoilMatesDB.Models
 {
+    /// <summary>
+    /// OrderProduct model, item in sale
+    /// </summary>
     public class OrderProduct
     {
         public int Id { get; set; }

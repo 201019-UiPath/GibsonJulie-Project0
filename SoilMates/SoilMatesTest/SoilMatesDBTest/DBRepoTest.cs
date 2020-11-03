@@ -319,8 +319,5 @@ namespace SoilMatesTest.SoilMatesDBTest
             Assert.Equal("Aloe", result.Name);
         }
 
-
-
-
     }
 }
