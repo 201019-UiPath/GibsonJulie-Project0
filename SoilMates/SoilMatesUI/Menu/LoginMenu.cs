@@ -69,6 +69,9 @@ namespace SoilMatesUI.Menu
             } while (!isValidInput || !userInput.Equals("x"));
         }
 
+        /// <summary>
+        /// Print Menu options
+        /// </summary>
         public void PrintLoginOptions()
         {
             Console.WriteLine();
@@ -88,7 +91,7 @@ namespace SoilMatesUI.Menu
             do
             {
                 Console.WriteLine("Email: ");
-                email = Console.ReadLine();
+                email = Console.ReadLine().ToLower();
                 Console.WriteLine("Password: ");
                 pw = Console.ReadLine();
             } while (!menuBL.EmailValidation(email));
@@ -106,12 +109,12 @@ namespace SoilMatesUI.Menu
             do
             {
                 Console.WriteLine("Enter your Email: ");
-                email = Console.ReadLine();
+                email = Console.ReadLine().ToLower();
                 Console.WriteLine("Enter your password: ");
                 pw = Console.ReadLine();
             } while (!menuBL.EmailValidation(email));
 
-            return managerService.GetManagerByLogin(pw, email); //TODO use Business layer to input validate user
+            return managerService.GetManagerByLogin(pw, email);
         }
     }
 }

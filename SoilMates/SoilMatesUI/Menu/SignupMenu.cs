@@ -3,13 +3,12 @@ using SoilMatesDB;
 using SoilMatesDB.Models;
 using SoilMatesLib;
 using SoilMatesBL;
+using Serilog;
 
 namespace SoilMatesUI.Menu
 {
     public class SignupMenu : IMenu
     {
-        int customerUser = 0; //to determine type of user 
-        int managerUser = 1;
         string userInput;
         IRepository userRepo;
         CustomerService customerService;
@@ -42,15 +41,12 @@ namespace SoilMatesUI.Menu
                 switch (userInput)
                 {
                     case "0":
-                        Customer newCustomer = GetCustomerDetails();
-                        customerService.AddCustomer(newCustomer);
-                        customerService.SaveChanges();
-                        break;
+                        GetCustomerDetails();
+                        return;
+
                     case "1":
-                        Manager newManager = GetManagerDetails();
-                        managerService.AddManager(newManager);
-                        managerService.SaveChanges();
-                        break;
+                        GetManagerDetails();
+                        return;
                 }
             } while (!isValidInput || !userInput.Equals("x"));
         }
@@ -61,6 +57,8 @@ namespace SoilMatesUI.Menu
         /// </summary>
         public void PrintSignUpOptions()
         {
+            Console.WriteLine();
+            Console.WriteLine("Select type of user:");
             Console.WriteLine("[0] Customer");
             Console.WriteLine("[1] Manager");
             Console.WriteLine("[x] exit");
@@ -70,48 +68,56 @@ namespace SoilMatesUI.Menu
         /// Get manger details from user
         /// </summary>
         /// <returns></returns>
-        public Manager GetManagerDetails()
+        public void GetManagerDetails()
         {
-            Manager user = new Manager();
+            string name, email, password;
             do
             {
                 Console.WriteLine("Please enter your information to sign up to SoilMates");
                 Console.WriteLine("Enter your name:");
-                user.Name = Console.ReadLine();
+                name = Console.ReadLine();
                 Console.WriteLine("Enter your Email: ");
-                user.Email = Console.ReadLine();
+                email = Console.ReadLine().ToLower();
                 Console.WriteLine("Enter your password: ");
-                user.Password = Console.ReadLine();
-                user.UserType = managerUser;
-            } while (!menuBL.NameValidation(user.Name) || !menuBL.EmailValidation(user.Email));
-            return user;
+                password = Console.ReadLine();
 
+            } while (!menuBL.NameValidation(name) || !menuBL.EmailValidation(email));
+
+            try
+            {
+                managerService.SignUpManager(name, email, password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
         /// Get customer details
         /// </summary>
         /// <returns></returns>
-        public Customer GetCustomerDetails()
+        public void GetCustomerDetails()
         {
-            Customer user = new Customer();
+            string name, email, password;
             do
             {
                 Console.WriteLine("Please enter your information to sign up to SoilMates");
-                //TODO use Business layer to input validate user details
                 Console.WriteLine("Enter your name:");
-                user.Name = Console.ReadLine();
+                name = Console.ReadLine();
                 Console.WriteLine("Enter your Email: ");
-                user.Email = Console.ReadLine();
+                email = Console.ReadLine().ToLower();
                 Console.WriteLine("Enter your password: ");
-                user.Password = Console.ReadLine();
-                user.UserType = customerUser;
-
-                //TODO make customer controller and add to constuctor!!!
-
-            } while (!menuBL.NameValidation(user.Name) || !menuBL.EmailValidation(user.Email));
-
-            return user;
+                password = Console.ReadLine();
+            } while (!menuBL.NameValidation(name) || !menuBL.EmailValidation(email));
+            try
+            {
+                customerService.SignUpCustomer(name, email, password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
