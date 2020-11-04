@@ -17,7 +17,6 @@ namespace SoilMatesUI.Menu
         ManagerService managerService;
         CustomerMenu customerMenu;
         ManagerMenu managerMenu;
-
         MenuBL menuBL;
 
         /// <summary>
