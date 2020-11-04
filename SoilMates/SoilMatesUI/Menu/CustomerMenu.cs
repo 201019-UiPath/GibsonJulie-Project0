@@ -147,7 +147,6 @@ namespace SoilMatesUI.Menu
         /// <param name="user"></param>
         public void OrderPlant(Customer user)
         {
-            Decimal totalPrice = 0;
             Console.WriteLine("Select the store to shop from by id:");
             foreach (var store in locationService.GetAllLocations())
             {
@@ -160,6 +159,9 @@ namespace SoilMatesUI.Menu
 
             Order newOrder = new Order();
             string input;
+
+
+            Decimal totalPrice = 0;
             do
             {
                 Console.WriteLine("Select a product by id");
@@ -170,6 +172,7 @@ namespace SoilMatesUI.Menu
                         Console.WriteLine($"\tproduct id: {invetoryItem.ProductForeingId} \tProduct name: {invetoryItem.Product.Name}  \tquantity: {invetoryItem.Quantity}");
                     }
                 }
+
                 int productId = Int32.Parse(Console.ReadLine());
                 Product soldProduct = productService.GetProduct(productId);
 
@@ -191,7 +194,6 @@ namespace SoilMatesUI.Menu
                 OrderProduct itemInCart = new OrderProduct();
                 orderProductService.UpdateOrderProductInCart(itemInCart, soldProduct, newOrder);
                 orderProductService.AddOrderProduct(itemInCart);
-                newOrder.LineItem.Add(itemInCart);
 
                 Console.WriteLine("Press any key to continue shopping (type [x] to finish order)");
                 input = Console.ReadLine();

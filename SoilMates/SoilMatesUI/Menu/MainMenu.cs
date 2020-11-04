@@ -48,8 +48,6 @@ namespace SoilMatesUI.Menu
                     case "1":
                         this._loginMenu.Start();
                         break;
-                    default:
-                        return;
                 }
             } while (!isValidInput || !userInput.Equals("x"));
         }

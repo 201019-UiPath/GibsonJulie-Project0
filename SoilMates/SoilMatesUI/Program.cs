@@ -14,7 +14,7 @@ namespace SoilMatesUI
         {
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
-            .WriteTo.File(@"/Log/Log.txt")
+            .WriteTo.File(@"../Log/Log.txt")
             .CreateLogger();
 
             IMenu menu = new MainMenu(new SoilMatesContext());

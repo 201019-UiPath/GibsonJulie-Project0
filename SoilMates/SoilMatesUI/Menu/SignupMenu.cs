@@ -14,8 +14,7 @@ namespace SoilMatesUI.Menu
         IRepository userRepo;
         CustomerService customerService;
         ManagerService managerService;
-
-        IMenuBL menuBL = new MenuBL();
+        MenuBL menuBL;
 
         /// <summary>
         /// Signup menu UI constructor
@@ -26,6 +25,7 @@ namespace SoilMatesUI.Menu
             this.userRepo = repo;
             this.customerService = new CustomerService(userRepo);
             this.managerService = new ManagerService(userRepo);
+            this.menuBL = new MenuBL();
         }
 
         /// <summary>
@@ -33,25 +33,37 @@ namespace SoilMatesUI.Menu
         /// </summary>
         public void Start()
         {
+            bool isValidInput;
+            do
+            {
+                PrintSignUpOptions();
+                userInput = Console.ReadLine();
+                isValidInput = menuBL.LoginInInputValidation(userInput);
+                switch (userInput)
+                {
+                    case "0":
+                        Customer newCustomer = GetCustomerDetails();
+                        customerService.AddCustomer(newCustomer);
+                        customerService.SaveChanges();
+                        break;
+                    case "1":
+                        Manager newManager = GetManagerDetails();
+                        managerService.AddManager(newManager);
+                        managerService.SaveChanges();
+                        break;
+                }
+            } while (!isValidInput || !userInput.Equals("x"));
+        }
+
+
+        /// <summary>
+        /// Print menu options
+        /// </summary>
+        public void PrintSignUpOptions()
+        {
             Console.WriteLine("[0] Customer");
             Console.WriteLine("[1] Manager");
             Console.WriteLine("[x] exit");
-            userInput = Console.ReadLine(); //TODO add inputvalidation
-
-            switch (userInput)
-            {
-                case "0":
-                    //call create a hero, get hero details
-                    Customer newCustomer = GetCustomerDetails();
-                    customerService.AddCustomer(newCustomer);
-                    customerService.SaveChanges();
-                    break;
-                case "1":
-                    Manager newManager = GetManagerDetails();
-                    managerService.AddManager(newManager);
-                    managerService.SaveChanges();
-                    break;
-            }
         }
 
         /// <summary>
