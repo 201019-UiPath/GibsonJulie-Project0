@@ -25,9 +25,14 @@ namespace SoilMatesLib
         /// <param name="location"></param>
         public void AddLocation(Location location)
         {
+            repo.AddLocation(location);
+        }
+
+        public void AddNewLocation(string name, string address)
+        {
+            Location location = new Location(name, address);
             if (!GetAllLocations().Any())
             {
-                //product table is empty
                 repo.AddLocation(location);
             }
             else
@@ -35,7 +40,7 @@ namespace SoilMatesLib
                 Location isDuplicate = GetLocationByName(location.Name);
                 if (isDuplicate == null)
                 {
-                    repo.AddLocation(location);
+                    AddLocation(location);
                 }
                 else
                 {
@@ -46,7 +51,7 @@ namespace SoilMatesLib
                     }
                     else
                     {
-                        repo.AddLocation(location);
+                        AddLocation(location);
                     }
                 }
             }

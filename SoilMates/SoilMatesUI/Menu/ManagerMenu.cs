@@ -35,36 +35,13 @@ namespace SoilMatesUI.Menu
                 PrintManagerMenuOptions();
                 isValidMenuItem = menuBL.EmployeeMenuInputValidation(userInput); //CHANGE THIS
 
-                if (isValidMenuItem && userInput.Equals("0"))
-                {
+                if (isValidMenuItem && userInput.Equals("0")) locationMenu.Start();
+                if (isValidMenuItem && userInput.Equals("1")) productMenu.Start();
+                if (isValidMenuItem && userInput.Equals("2")) inventoryMenu.AddPlantToInventory();
+                if (isValidMenuItem && userInput.Equals("3")) inventoryMenu.PrintStoreInvetory();
+                if (isValidMenuItem && userInput.Equals("4")) inventoryMenu.PrintPlantInventory();
+                if (isValidMenuItem && userInput.Equals("5")) locationMenu.OrderAtLocation();
 
-                    locationMenu.Start();
-                }
-
-                if (isValidMenuItem && userInput.Equals("1"))
-                {
-                    productMenu.Start();
-                }
-
-                if (isValidMenuItem && userInput.Equals("2"))
-                {
-                    inventoryMenu.AddPlantToInventory();
-                }
-
-                if (isValidMenuItem && userInput.Equals("3"))
-                {
-                    inventoryMenu.PrintStoreInvetory();
-                }
-
-                if (isValidMenuItem && userInput.Equals("4"))
-                {
-                    inventoryMenu.PrintPlantInventory();
-                }
-
-                if (isValidMenuItem && userInput.Equals("5"))
-                {
-                    locationMenu.OrderAtLocation();
-                }
             } while (!isValidMenuItem || !userInput.Equals("x"));
         }
 

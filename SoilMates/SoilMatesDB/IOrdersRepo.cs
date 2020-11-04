@@ -14,6 +14,8 @@ namespace SoilMatesDB
 
         List<Order> GetOrderByCustomerId(int id);
 
+        List<Order> GetOrderByLocationId(int id);
+
         void SaveChanges();
 
     }

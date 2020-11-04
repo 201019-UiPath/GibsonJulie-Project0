@@ -60,6 +60,19 @@ namespace SoilMatesLib
 
         }
 
+        public List<Order> GetOrderByLocatoinId(int locationId)
+        {
+            List<Order> ordersForCustomer = new List<Order>();
+            foreach (var item in repo.GetOrderByLocationId(locationId))
+            {
+                if (item.LocationId == locationId)
+                {
+                    ordersForCustomer.Add(item);
+                }
+            }
+            return ordersForCustomer;
+        }
+
         /// <summary>
         /// Submits order once customer is done adding items 
         /// </summary>

@@ -14,7 +14,7 @@ namespace SoilMatesDB
         Manager GetManagerById(int id);
         Manager GetManagerByLogin(string password, string email);
         void RemoveManager(Manager manager);
-
+        Manager GetManagerByEmail(string email);
         void SaveChanges();
     }
 }

@@ -57,6 +57,26 @@ namespace SoilMatesDB
             return (Customer)context.Customers.FirstOrDefault(x => x.Id == id);
         }
 
+
+        /// <summary>
+        /// Find customer by email informaion
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public Customer GetCustomerByEmail(string email)
+        {
+            Log.Information("Retrieved customer from repository.");
+            return (Customer)context.Customers.FirstOrDefault(x => x.Email.Equals(email));
+        }
+
+        public Manager GetManagerByEmail(string email)
+        {
+            Log.Information("Retrieved manager from repository.");
+            return (Manager)context.Managers.FirstOrDefault(x => x.Email.Equals(email));
+        }
+
+
+
         /// <summary>
         /// Retrieves customer from database by name of customer
         /// </summary>
@@ -342,6 +362,17 @@ namespace SoilMatesDB
         public List<Order> GetOrderByCustomerId(int id)
         {
             Log.Information("Retrieved order for customer.");
+            return context.Orders.Include(s => s.LineItem).ThenInclude(s => s.Product).ToList();
+        }
+
+        /// <summary>
+        /// Returns list of orders by customer id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Order> GetOrderByLocationId(int id)
+        {
+            Log.Information("Retrieved order for location.");
             return context.Orders.Include(s => s.LineItem).ThenInclude(s => s.Product).ToList();
         }
 

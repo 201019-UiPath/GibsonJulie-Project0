@@ -16,7 +16,14 @@ namespace SoilMatesBL
         public bool SignInInputValidation(string input)
         {
             string loginInputPattern = "[0-1x]";
-            string message = "Please select from menu options.\n";
+            string message = "Please select from options.\n";
+            return MenuOptionsValidation(loginInputPattern, input, message);
+        }
+
+        public bool LoginInInputValidation(string input)
+        {
+            string loginInputPattern = "[0-1x]";
+            string message = "Please select from options.\n";
             return MenuOptionsValidation(loginInputPattern, input, message);
         }
 
@@ -39,7 +46,7 @@ namespace SoilMatesBL
         /// <returns></returns>
         public bool EmployeeMenuInputValidation(string input)
         {
-            string customerInputPattern = "[0-4x]";
+            string customerInputPattern = "[0-5x]";
             string message = "Please select from menu options.\n";
             return MenuOptionsValidation(customerInputPattern, input, message);
         }

@@ -15,5 +15,14 @@ namespace SoilMatesDB.Models
         public List<Inventory> ProductLocations { get; set; }
         public List<OrderProduct> LineItem { get; set; }
 
+        public Product() { }
+
+        public Product(string name, decimal price, string description)
+        {
+            this.Name = name;
+            this.Price = price;
+            this.Description = description;
+        }
+
     }
 }

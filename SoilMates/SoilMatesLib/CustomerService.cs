@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using SoilMatesDB;
 using SoilMatesDB.Models;
+using Serilog;
+using System;
 
 namespace SoilMatesLib
 {
@@ -28,6 +30,7 @@ namespace SoilMatesLib
         public void AddCustomer(Customer newCustomer)
         {
             repo.AddCustomer(newCustomer);  //TODO: check for duplicate customers
+            Log.Information("New customer signed up.");
         }
 
         /// <summary>
@@ -46,5 +49,30 @@ namespace SoilMatesLib
         {
             repo.SaveChanges();
         }
+
+        /// <summary>
+        /// Get customer by login infomation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public Customer GetCustomerByLogin(string password, string email)
+        {
+            return repo.GetCustomerByLogin(password, email);
+        }
+
+        public void SignUpCustomer(string name, string email, string password)
+        {
+            if (repo.GetCustomerByEmail(email) != null)
+            {
+                Log.Warning("Existing user attempted new sign up.");
+                throw new Exception("Customer already exists!");
+            }
+            Customer newCustomer = new Customer(name, email, password);
+            AddCustomer(newCustomer);
+            SaveChanges();
+        }
+
+
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using SoilMatesDB;
 using SoilMatesDB.Models;
 using System;
+using Serilog;
 
 namespace SoilMatesLib
 {
@@ -28,21 +29,33 @@ namespace SoilMatesLib
         /// <param name="product"></param>
         public void AddProduct(Product product)
         {
-            // repo.AddProduct(newProduct);
+            repo.AddProduct(product);
+        }
+
+        /// <summary>
+        /// Adds product given user input
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="price"></param>
+        /// <param name="description"></param>
+        public void AddNewProduct(string name, decimal price, string description)
+        {
+            Product product = new Product(name, price, description);
             if (GetAllProducts().Count == 0)
             {
-                //product table is empty just add product
-                repo.AddProduct(product);
+
+                AddProduct(product);
             }
             else
             {
                 Product isDuplicate = GetProduct(product.Name);
                 if (isDuplicate == null)
                 {
-                    repo.AddProduct(product);
+                    AddProduct(product);
                 }
                 else
                 {
+                    Log.Warning("Attempted to add duplicate product.");
                     throw new Exception("Product already exists, cannot be added!");
                 }
             }

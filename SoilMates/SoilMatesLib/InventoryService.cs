@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using SoilMatesDB;
 using SoilMatesDB.Models;
 using System;
+using Serilog;
 
 namespace SoilMatesLib
 {
@@ -25,17 +26,26 @@ namespace SoilMatesLib
         {
             //if product location combination exists just update quantity
             Inventory item = GetInventoryItem(inventory.ProductForeingId, inventory.LocationForeignId);
-            if (item == null)
+            if (item != null)
             {
-                repo.AddInventory(inventory);
+                throw new Exception("Inventory item already exists.");
             }
-            // else
-            // {
-            //     Console.WriteLine("Increased item quantity");
-            //     //increase quantity in inventory
-            //     item.Quantity++;
-            // }
+            repo.AddInventory(inventory);
+        }
 
+        public void AddItemToInventory(Location location, Product product, int quantity)
+        {
+            Inventory item = new Inventory(location, product, location.LocationId, product.ProductId);
+            try
+            {
+                AddInventory(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            UpdateQuantity(item, quantity);
+            SaveChanges();
         }
 
         /// <summary>

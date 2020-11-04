@@ -16,6 +16,13 @@ namespace SoilMatesDB.Models
 
         public List<Order> orderHistory { get; set; }
 
+        public Location() { }
+
+        public Location(string name, string address)
+        {
+            this.Name = name;
+            this.Address = address;
+        }
 
     }
 }
